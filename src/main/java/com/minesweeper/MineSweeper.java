@@ -1,11 +1,16 @@
  package com.minesweeper;
 
- import cpw.mods.fml.common.Mod;
+ import com.minesweeper.blocks.BlockExplosiveMine;
+import com.minesweeper.blocks.BlockFloatingNumber;
+import com.minesweeper.blocks.BlockGoodies;
+import com.minesweeper.tileEntities.TileEntityMineFieldCompletionSearch;
+
+import cpw.mods.fml.common.Mod;
 
 
  import cpw.mods.fml.common.event.FMLInitializationEvent;
- import cpw.mods.fml.common.event.FMLPreInitializationEvent;
- import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
 
  @Mod(modid = MineSweeper.MODID, version = MineSweeper.VERSION)
  public class MineSweeper
@@ -30,13 +35,8 @@
      GameRegistry.registerWorldGenerator(new GenerateMineField(),5);
 
     // proxy.RegisterRendering();
-  }
+   }
 
 
  }
 
-
-/* Location:              C:\Users\Michael\Desktop\oldComputer\MinecraftMods\MineSweeper\!\MineSweeper\MineSweeper.class
- * Java compiler version: 6 (50.0)
- * JD-Core Version:       0.7.1
- */

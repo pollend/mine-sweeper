@@ -1,12 +1,17 @@
  package com.minesweeper;
  
  import cpw.mods.fml.common.IWorldGenerator;
- import java.util.ArrayList;
- import java.util.List;
- import java.util.Random;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import com.minesweeper.blocks.BlockExplosiveMine;
+import com.minesweeper.blocks.BlockGoodies;
+import com.minesweeper.tileEntities.TileEntityMineFieldCompletionSearch;
 
  import net.minecraft.world.World;
- import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.chunk.IChunkProvider;
 
  
  public class GenerateMineField
