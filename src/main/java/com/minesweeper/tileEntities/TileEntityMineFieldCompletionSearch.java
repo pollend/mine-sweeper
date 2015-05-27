@@ -1,8 +1,11 @@
  package com.minesweeper.tileEntities;
 
- import net.minecraft.nbt.NBTTagCompound;
- import net.minecraft.tileentity.TileEntity;
- import net.minecraft.world.World;
+ import com.minesweeper.blocks.BlockExplosiveMine;
+import com.minesweeper.blocks.BlockFloatingNumber;
+
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
 
  public class TileEntityMineFieldCompletionSearch
@@ -26,7 +29,7 @@
  
  
  
- /*
+ 
    public boolean IsMineFieldCompleted(World world)
    {
      if (this.xExplosiveBlocks.length == 0)
@@ -35,7 +38,7 @@
      }
      for (int i = 0; i < this.xExplosiveBlocks.length; i++)
      {
-       if (world.a(this.xExplosiveBlocks[i], this.yExplosiveBlocks[i], this.zExplosiveBlocks[i]) != 701)
+       if (!(world.getBlock(this.xExplosiveBlocks[i], this.yExplosiveBlocks[i], this.zExplosiveBlocks[i]) instanceof BlockExplosiveMine))
        {
          return false;
        }
@@ -43,7 +46,7 @@
      int maxAllowedGoodieBlocks = 1;
      for (int i = 0; i < this.xNumberBlocks.length; i++)
      {
-       if (world.a(this.xNumberBlocks[i], this.yNumberBlocks[i], this.zNumberBlocks[i]) != 700)
+       if (!(world.getBlock(this.xNumberBlocks[i], this.yNumberBlocks[i], this.zNumberBlocks[i]) instanceof BlockFloatingNumber))
        {
          if (maxAllowedGoodieBlocks <= 0)
            return false;
@@ -52,25 +55,25 @@
      }
      return true;
    }
-   */
- /*
+   
+ 
  
  
    public void ClearField(World world)
    {
      for (int i = 0; i < this.xExplosiveBlocks.length; i++)
      {
-       world.e(this.xExplosiveBlocks[i], this.yExplosiveBlocks[i], this.zExplosiveBlocks[i], 0);
+       world.setBlockToAir(this.xExplosiveBlocks[i], this.yExplosiveBlocks[i], this.zExplosiveBlocks[i]);
      }
      
  
      for (int i = 0; i < this.xNumberBlocks.length; i++)
      {
-       world.e(this.xNumberBlocks[i], this.yNumberBlocks[i], this.zNumberBlocks[i], 0);
+       world.setBlockToAir(this.xNumberBlocks[i], this.yNumberBlocks[i], this.zNumberBlocks[i]);
      }
    }
    
- */
+ 
  
  
  

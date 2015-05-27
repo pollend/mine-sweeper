@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-import com.minesweeper.tileEntities.TileEntityDisembodiedNumber;
+import com.minesweeper.tileEntities.TileEntityFloatingNumber;
  public class BlockFloatingNumber extends Block
  {
    public BlockFloatingNumber()
@@ -18,14 +18,24 @@ import com.minesweeper.tileEntities.TileEntityDisembodiedNumber;
    @Override
    public TileEntity createTileEntity(World world, int metadata)
    {
-     return new TileEntityDisembodiedNumber();
+     return new TileEntityFloatingNumber(world);
    }
 
-
-public boolean hasTileEntity(int metadata)
-{
- return true;
-}
+   @Override
+	public boolean hasTileEntity(int metadata)
+	{
+	 return true;
+	}
+   @Override
+   public boolean renderAsNormalBlock()
+   {
+       return false;
+   }
+   
+   @Override
+   public boolean isOpaqueCube(){
+       return false;
+   }
 
 
 /*

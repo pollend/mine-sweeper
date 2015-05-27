@@ -1,8 +1,16 @@
 package com.minesweeper;
 
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+
+import com.minesweeper.tileEntities.TileEntityFloatingNumber;
+
 public class CommonProxy
 {
-  public void RegisterRendering() {}
+
+  public void RegisterRendering() {
+
+
+  }
 }
 
 

@@ -4,6 +4,7 @@
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.fml.relauncher.Side;
@@ -28,25 +29,26 @@ import com.minesweeper.MineSweeper;
      super(Material.rock);
     
 
-     this.setCreativeTab(CreativeTabs.tabBlock);
-       this.setBlockName("explosive");
-   
-     //super.c(1.5F);
-     //super.b(10.0F);
+	   this.setCreativeTab(CreativeTabs.tabBlock);
+	   this.setBlockName("explosive");
+	   
+       this.setHardness(1.5F);
+       this.setResistance(10.0F);
+       this.setStepSound(soundTypePiston);
    }
 
    @Override
    public void registerBlockIcons(IIconRegister icon)
    {
-	     numbers = new IIcon[16];
-	     
-	   
-	 this.cancle = icon.registerIcon(MineSweeper.MODID + ":" + "cancel");
-	 
-	   for(int x =0; x < numbers.length; x++)
-	   {
-		   numbers[x] = icon.registerIcon(MineSweeper.MODID + ":" + "stone-"+(x+1));
-	   }
+		numbers = new IIcon[13];
+		     
+		   
+		this.cancle = icon.registerIcon(MineSweeper.MODID + ":" + "cancel");
+		 
+		for(int x =0; x < numbers.length; x++)
+		{
+			   numbers[x] = icon.registerIcon(MineSweeper.MODID + ":" + "stone-"+(x+1));
+		}
   // blockIcon = icon.registerIcon(ModInfo.ID.toLowerCase() + ":" + Names.tutBlock_unlocalizedName);
    
    }
@@ -54,7 +56,10 @@ import com.minesweeper.MineSweeper;
    @Override
    @SideOnly(Side.CLIENT)
    public IIcon getIcon(int side, int metadata) {
-	return  numbers[metadata];
+	   if(metadata == 15)
+		   return cancle;
+	   else
+		   return  numbers[metadata];
 
    }
    
@@ -107,12 +112,7 @@ import com.minesweeper.MineSweeper;
          MineCount = 14;
        }
 
-       if (MineCount == 0) {
-         world.setBlockToAir(x, y, z);
-       } else {
-         world.setBlockMetadataWithNotify(x, y, z, MineCount, 2);
-       }
-
+       world.setBlockMetadataWithNotify(x, y, z, MineCount, 2);
    }
 
 
@@ -122,6 +122,18 @@ import com.minesweeper.MineSweeper;
    {
 
      return world.getBlock(x, y, z).getClass() == BlockExplosiveMine.class ? 1 : 0;
+   }
+   @Override
+   public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
+   {
+	   System.out.println(world.getBlockMetadata(x, y, z));
+       if (world.getBlockMetadata(x, y, z) == 15) {
+        this.onBlockAdded(world, x, y, z);
+       } else{
+    	   world.setBlockMetadataWithNotify(x, y, z, 15, 2);
+   		}
+
+       return super.onBlockActivated(world, x, y, z, player, p_149727_6_, p_149727_7_, p_149727_8_, p_149727_9_);
    }
    
    /*public boolean a(World par1World, int par2, int par3, int par4, qx par5EntityPlayer, int par6, float par7, float par8, float par9)

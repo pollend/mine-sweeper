@@ -8,10 +8,12 @@ import java.util.Random;
 
 import com.minesweeper.blocks.BlockExplosiveMine;
 import com.minesweeper.blocks.BlockGoodies;
+import com.minesweeper.blocks.MineSweeperBlocks;
 import com.minesweeper.tileEntities.TileEntityMineFieldCompletionSearch;
 
  import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.feature.WorldGenMinable;
 
  
  public class GenerateMineField
@@ -36,7 +38,7 @@ import net.minecraft.world.chunk.IChunkProvider;
      int size = random.nextInt(40) + 40;
      if (random.nextFloat() * 100.0F > 97.0F)
      {
- 
+
        this.xGoodieBlock = new ArrayList();
        this.yGoodieBlock = new ArrayList();
        this.zGoodieBlock = new ArrayList();
@@ -51,23 +53,23 @@ import net.minecraft.world.chunk.IChunkProvider;
          AddMine(x + random.nextInt(10) - 5, y + random.nextInt(10) - 5, z + random.nextInt(10) - 5, world);
        }
        
-       for (int i = 0; i < this.xGoodieBlock.size(); i++)
+       /*for (int i = 0; i < this.xGoodieBlock.size(); i++)
        {
-         if (world.getBlock(((Integer)this.xGoodieBlock.get(i)).intValue(), ((Integer)this.yGoodieBlock.get(i)).intValue(), ((Integer)this.zGoodieBlock.get(i))).getClass() != BlockGoodies.class)
+         if (!(world.getBlock(((Integer)this.xGoodieBlock.get(i)).intValue(), ((Integer)this.yGoodieBlock.get(i)).intValue(), ((Integer)this.zGoodieBlock.get(i))) instanceof BlockGoodies))
          {
            this.xGoodieBlock.remove(i);
            this.yGoodieBlock.remove(i);
            this.zGoodieBlock.remove(i);
            i--;
          }
-       }
+       }*/
        
  
        for (int i = 0; i < this.xGoodieBlock.size(); i++)
        {
 
-         world.setBlock(((Integer)this.xGoodieBlock.get(i)).intValue(), ((Integer)this.yGoodieBlock.get(i)).intValue(), ((Integer)this.zGoodieBlock.get(i)).intValue(), new BlockGoodies());
-         TileEntityMineFieldCompletionSearch t = (TileEntityMineFieldCompletionSearch)world.getTileEntity(((Integer) this.xGoodieBlock.get(i)).intValue(), ((Integer) this.yGoodieBlock.get(i)).intValue(), ((Integer) this.zGoodieBlock.get(i)).intValue());
+        // world.setBlock(((Integer)this.xGoodieBlock.get(i)).intValue(), ((Integer)this.yGoodieBlock.get(i)).intValue(), ((Integer)this.zGoodieBlock.get(i)).intValue(), MineSweeperBlocks.blockGoodies,0,2);
+      /*   TileEntityMineFieldCompletionSearch t = (TileEntityMineFieldCompletionSearch)world.getTileEntity(((Integer) this.xGoodieBlock.get(i)).intValue(), ((Integer) this.yGoodieBlock.get(i)).intValue(), ((Integer) this.zGoodieBlock.get(i)).intValue());
          
  
          t.xNumberBlocks = new int[this.xGoodieBlock.size()];
@@ -84,7 +86,7 @@ import net.minecraft.world.chunk.IChunkProvider;
          
          t.xNumberBlocks = ConvertingListOfIntegersToArray(this.xGoodieBlock);
          t.yNumberBlocks = ConvertingListOfIntegersToArray(this.yGoodieBlock);
-         t.zNumberBlocks = ConvertingListOfIntegersToArray(this.zGoodieBlock);
+         t.zNumberBlocks = ConvertingListOfIntegersToArray(this.zGoodieBlock);*/
        }
      }
    }
@@ -105,9 +107,9 @@ import net.minecraft.world.chunk.IChunkProvider;
    
    public void AddMine(int x, int y, int z, World world)
    {
-     if (world.getBlock(x, y, z).getClass() != BlockExplosiveMine.class)
+     if (!(world.getBlock(x, y, z) instanceof BlockExplosiveMine))
      {
-       world.setBlock(x, y, z, new BlockExplosiveMine());
+       world.setBlock(x, y, z, MineSweeperBlocks.blockExplosiveMine,0,2);
        this.xMineBlock.add(Integer.valueOf(x));
        this.yMineBlock.add(Integer.valueOf(y));
        this.zMineBlock.add(Integer.valueOf(z));
@@ -155,23 +157,22 @@ import net.minecraft.world.chunk.IChunkProvider;
  
    public void SetNumberBlock(int x, int y, int z, World world)
    {
-     if (world.getBlock(x, y, z).getClass() == BlockExplosiveMine.class)
+     if (world.getBlock(x, y, z) instanceof BlockExplosiveMine)
      {
  
-       world.setBlock(x, y, z, new BlockExplosiveMine());
+       world.setBlock(x, y, z, MineSweeperBlocks.blockExplosiveMine,0,2);
      }
-     
- 
-     if ((world.getBlock(x, y, z).getClass() != BlockExplosiveMine.class) && (world.getBlock(x, y, z).getClass() != BlockGoodies.class))
+     else if(!(world.getBlock(x, y, z) instanceof BlockGoodies))
      {
- 
-       world.setBlock(x, y, z, new BlockGoodies());
-       
- 
+    
+       world.setBlock(x, y, z, MineSweeperBlocks.blockGoodies,0,2);
+      
        this.xGoodieBlock.add(Integer.valueOf(x));
        this.yGoodieBlock.add(Integer.valueOf(y));
        this.zGoodieBlock.add(Integer.valueOf(z));
      }
+     world.getBlock(x, y, z).onBlockAdded(world, x, y, z); 
+     
    }
 
 
