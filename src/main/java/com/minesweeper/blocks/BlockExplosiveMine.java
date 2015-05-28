@@ -2,55 +2,57 @@
 
  import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
+ import net.minecraft.block.properties.PropertyInteger;
+ import net.minecraft.block.state.IBlockState;
+ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
-import net.minecraft.util.IIcon;
-import net.minecraftforge.fml.relauncher.Side;
+ import net.minecraft.util.BlockPos;
+ import net.minecraft.util.EnumFacing;
+ import net.minecraft.world.World;
+ import net.minecraftforge.fml.common.registry.GameRegistry;
+ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Random;
 
 import com.minesweeper.MineSweeper;
+ import scala.Int;
 
 
  public class BlockExplosiveMine
-   extends Block
+   extends BaseFieldBlock
  {
-	 @SideOnly(Side.CLIENT)
-	 public static IIcon[] numbers ;
-	 @SideOnly(Side.CLIENT)
-	 public static IIcon cancle ;
+     public final static String name = "explosivemine";
 	 
 	 
    public BlockExplosiveMine()
    {
      super(Material.rock);
-    
+       this.setCreativeTab(CreativeTabs.tabBlock);
 
-	   this.setCreativeTab(CreativeTabs.tabBlock);
-	   this.setBlockName("explosive");
-	   
+       this.setUnlocalizedName(MineSweeper.MODID+"_"+name);
+
+
        this.setHardness(1.5F);
        this.setResistance(10.0F);
        this.setStepSound(soundTypePiston);
+       GameRegistry.registerBlock(this, name);
    }
-
+/*
    @Override
    public void registerBlockIcons(IIconRegister icon)
    {
 		numbers = new IIcon[13];
-		     
-		   
+
+
 		this.cancle = icon.registerIcon(MineSweeper.MODID + ":" + "cancel");
-		 
+
 		for(int x =0; x < numbers.length; x++)
 		{
 			   numbers[x] = icon.registerIcon(MineSweeper.MODID + ":" + "stone-"+(x+1));
 		}
   // blockIcon = icon.registerIcon(ModInfo.ID.toLowerCase() + ":" + Names.tutBlock_unlocalizedName);
-   
+
    }
 
    @Override
@@ -61,80 +63,10 @@ import com.minesweeper.MineSweeper;
 	   else
 		   return  numbers[metadata];
 
-   }
-   
-   @Override
-   public void onBlockAdded(World world, int x, int y, int z) {
-
-       int MineCount = 0;
-
-
-       MineCount += IsMineBlock(x - 1, y - 1, z - 1, world);
-       MineCount += IsMineBlock(x - 1, y - 1, z, world);
-       MineCount += IsMineBlock(x - 1, y - 1, z + 1, world);
-
-       MineCount += IsMineBlock(x + 1, y - 1, z - 1, world);
-       MineCount += IsMineBlock(x + 1, y - 1, z, world);
-       MineCount += IsMineBlock(x + 1, y - 1, z + 1, world);
-
-       MineCount += IsMineBlock(x, y - 1, z - 1, world);
-       MineCount += IsMineBlock(x, y - 1, z, world);
-       MineCount += IsMineBlock(x, y - 1, z + 1, world);
-
-
-       MineCount += IsMineBlock(x - 1, y + 1, z - 1, world);
-       MineCount += IsMineBlock(x - 1, y + 1, z, world);
-       MineCount += IsMineBlock(x - 1, y + 1, z + 1, world);
-
-       MineCount += IsMineBlock(x + 1, y + 1, z - 1, world);
-       MineCount += IsMineBlock(x + 1, y + 1, z, world);
-       MineCount += IsMineBlock(x + 1, y + 1, z + 1, world);
-
-       MineCount += IsMineBlock(x, y + 1, z - 1, world);
-       MineCount += IsMineBlock(x, y + 1, z, world);
-       MineCount += IsMineBlock(x, y + 1, z + 1, world);
-
-
-       MineCount += IsMineBlock(x - 1, y, z - 1, world);
-       MineCount += IsMineBlock(x - 1, y, z, world);
-       MineCount += IsMineBlock(x - 1, y, z + 1, world);
-
-       MineCount += IsMineBlock(x + 1, y, z - 1, world);
-       MineCount += IsMineBlock(x + 1, y, z, world);
-       MineCount += IsMineBlock(x + 1, y, z + 1, world);
-
-       MineCount += IsMineBlock(x, y, z - 1, world);
-
-       MineCount += IsMineBlock(x, y, z + 1, world);
-
-
-       if (MineCount > 14) {
-         MineCount = 14;
-       }
-
-       world.setBlockMetadataWithNotify(x, y, z, MineCount, 2);
-   }
+   }*/
 
 
 
-
-   private int IsMineBlock(int x, int y, int z, World world)
-   {
-
-     return world.getBlock(x, y, z).getClass() == BlockExplosiveMine.class ? 1 : 0;
-   }
-   @Override
-   public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
-   {
-	   System.out.println(world.getBlockMetadata(x, y, z));
-       if (world.getBlockMetadata(x, y, z) == 15) {
-        this.onBlockAdded(world, x, y, z);
-       } else{
-    	   world.setBlockMetadataWithNotify(x, y, z, 15, 2);
-   		}
-
-       return super.onBlockActivated(world, x, y, z, player, p_149727_6_, p_149727_7_, p_149727_8_, p_149727_9_);
-   }
    
    /*public boolean a(World par1World, int par2, int par3, int par4, qx par5EntityPlayer, int par6, float par7, float par8, float par9)
    {
@@ -158,30 +90,30 @@ import com.minesweeper.MineSweeper;
  /*
    public void c(World world, int x, int y, int z, int par5)
    {
-     world.b(x - 1, y - 1, z - 1, 0);
-     world.b(x - 1, y - 1, z, 0);
-     world.b(x - 1, y - 1, z + 1, 0);
+     world.b(x - 1,- 1, z - 1, 0);
+     world.b(x - 1,- 1, z, 0);
+     world.b(x - 1,- 1, z + 1, 0);
      
-     world.b(x + 1, y - 1, z - 1, 0);
-     world.b(x + 1, y - 1, z, 0);
-     world.b(x + 1, y - 1, z + 1, 0);
+     world.b(x + 1,- 1, z - 1, 0);
+     world.b(x + 1,- 1, z, 0);
+     world.b(x + 1,- 1, z + 1, 0);
      
-     world.b(x, y - 1, z - 1, 0);
-     world.b(x, y - 1, z, 0);
-     world.b(x, y - 1, z + 1, 0);
+     world.b(x,- 1, z - 1, 0);
+     world.b(x,- 1, z, 0);
+     world.b(x,- 1, z + 1, 0);
      
  
-     world.b(x - 1, y + 1, z - 1, 0);
-     world.b(x - 1, y + 1, z, 0);
-     world.b(x - 1, y + 1, z + 1, 0);
+     world.b(x - 1,+ 1, z - 1, 0);
+     world.b(x - 1,+ 1, z, 0);
+     world.b(x - 1,+ 1, z + 1, 0);
      
-     world.b(x + 1, y + 1, z - 1, 0);
-     world.b(x + 1, y + 1, z, 0);
-     world.b(x + 1, y + 1, z + 1, 0);
+     world.b(x + 1,+ 1, z - 1, 0);
+     world.b(x + 1,+ 1, z, 0);
+     world.b(x + 1,+ 1, z + 1, 0);
      
-     world.b(x, y + 1, z - 1, 0);
-     world.b(x, y + 1, z, 0);
-     world.b(x, y + 1, z + 1, 0);
+     world.b(x,+ 1, z - 1, 0);
+     world.b(x,+ 1, z, 0);
+     world.b(x,+ 1, z + 1, 0);
      
  
      world.b(x - 1, y, z - 1, 0);

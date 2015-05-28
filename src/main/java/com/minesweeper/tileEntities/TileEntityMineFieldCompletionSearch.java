@@ -5,7 +5,8 @@ import com.minesweeper.blocks.BlockFloatingNumber;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+ import net.minecraft.util.BlockPos;
+ import net.minecraft.world.World;
 
 
  public class TileEntityMineFieldCompletionSearch
@@ -38,7 +39,7 @@ import net.minecraft.world.World;
      }
      for (int i = 0; i < this.xExplosiveBlocks.length; i++)
      {
-       if (!(world.getBlock(this.xExplosiveBlocks[i], this.yExplosiveBlocks[i], this.zExplosiveBlocks[i]) instanceof BlockExplosiveMine))
+       if (!(world.getBlockState(new BlockPos(this.xExplosiveBlocks[i], this.yExplosiveBlocks[i], this.zExplosiveBlocks[i])).getBlock() instanceof BlockExplosiveMine))
        {
          return false;
        }
@@ -46,7 +47,7 @@ import net.minecraft.world.World;
      int maxAllowedGoodieBlocks = 1;
      for (int i = 0; i < this.xNumberBlocks.length; i++)
      {
-       if (!(world.getBlock(this.xNumberBlocks[i], this.yNumberBlocks[i], this.zNumberBlocks[i]) instanceof BlockFloatingNumber))
+       if (!(world.getBlockState(new BlockPos(this.xNumberBlocks[i], this.yNumberBlocks[i], this.zNumberBlocks[i])).getBlock() instanceof BlockFloatingNumber))
        {
          if (maxAllowedGoodieBlocks <= 0)
            return false;
@@ -63,13 +64,13 @@ import net.minecraft.world.World;
    {
      for (int i = 0; i < this.xExplosiveBlocks.length; i++)
      {
-       world.setBlockToAir(this.xExplosiveBlocks[i], this.yExplosiveBlocks[i], this.zExplosiveBlocks[i]);
+       world.setBlockToAir(new BlockPos(this.xExplosiveBlocks[i], this.yExplosiveBlocks[i], this.zExplosiveBlocks[i]));
      }
      
  
      for (int i = 0; i < this.xNumberBlocks.length; i++)
      {
-       world.setBlockToAir(this.xNumberBlocks[i], this.yNumberBlocks[i], this.zNumberBlocks[i]);
+       world.setBlockToAir(new BlockPos(this.xNumberBlocks[i], this.yNumberBlocks[i], this.zNumberBlocks[i]));
      }
    }
    

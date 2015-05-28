@@ -1,12 +1,11 @@
  package com.minesweeper;
 
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
+
 import net.minecraft.world.IBlockAccess;
 
  public class RenderTrophy
-   implements ISimpleBlockRenderingHandler
+ //  implements ISimpleBlockRenderingHandler
  {
    //public void renderInventoryBlock(amj block, int metadata, int modelID, baq renderer) {}
    
@@ -16,21 +15,21 @@ import net.minecraft.world.IBlockAccess;
      
      return false;
    }*/
+/*
+@Override
+public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
 
-            @Override
-            public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
+}
 
-            }
+@Override
+public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
+    return false;
+}
 
-            @Override
-            public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
-                return false;
-            }
-
-            @Override
-            public boolean shouldRender3DInInventory(int modelId) {
-                return false;
-            }
+@Override
+public boolean shouldRender3DInInventory(int modelId) {
+    return false;
+}*/
 
    private void BronzeTrophy(double x, double y, double z)
    {

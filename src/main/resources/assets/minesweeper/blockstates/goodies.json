@@ -1,0 +1,52 @@
+{
+    "variants": {
+        "states=0": {
+            "model": "minesweeper:stone-01"
+        },
+        "states=1": {
+            "model": "minesweeper:stone-02"
+        },
+        "states=2": {
+            "model": "minesweeper:stone-03"
+        },
+        "states=3": {
+            "model": "minesweeper:stone-04"
+        },
+        "states=4": {
+            "model": "minesweeper:stone-05"
+        },
+        "states=5": {
+            "model": "minesweeper:stone-06"
+        },
+        "states=6": {
+            "model": "minesweeper:stone-07"
+        },
+        "states=7": {
+            "model": "minesweeper:stone-08"
+        },
+        "states=8": {
+            "model": "minesweeper:stone-09"
+        },
+        "states=9": {
+            "model": "minesweeper:stone-10"
+        },
+        "states=10": {
+            "model": "minesweeper:stone-11"
+        },
+        "states=11": {
+            "model": "minesweeper:stone-12"
+        },
+        "states=12": {
+            "model": "minesweeper:stone-13"
+        },
+        "states=13": {
+            "model": "minesweeper:stone-14"
+        },
+        "states=14": {
+            "model": "minesweeper:stone-15"
+        },
+        "states=15": {
+            "model": "minesweeper:marked"
+        }
+    }
+}

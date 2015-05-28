@@ -1,6 +1,6 @@
 package com.minesweeper.blocks;
 
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  * Created by Michael on 5/26/2015.
@@ -19,9 +19,8 @@ public class MineSweeperBlocks {
 	
 	public static void init()
 	{
-	     GameRegistry.registerBlock(blockGoodies,"BlockGoodies");
-	     GameRegistry.registerBlock(blockFloatingNumber,"FloatingNumber");
-	     GameRegistry.registerBlock(blockExplosiveMine,"ExplosiveMine");	
+
+
 	}
 
 	

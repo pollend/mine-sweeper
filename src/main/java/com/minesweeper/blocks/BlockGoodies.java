@@ -2,28 +2,31 @@ package com.minesweeper.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Random;
 
 import com.minesweeper.MineSweeper;
 import com.minesweeper.tileEntities.TileEntityMineFieldCompletionSearch;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class BlockGoodies extends Block {
+public class BlockGoodies  extends BaseFieldBlock{
 
-    @SideOnly(Side.CLIENT)
-    public static IIcon[] numbers;
-    @SideOnly(Side.CLIENT)
-    public static IIcon cancle;
 
     Random rand = new Random();
+
+    public final static String name = "goodies";
+
+    @Override
+    public  int getStartingCount()
+    {
+        return  -1;
+    }
+
 
     public BlockGoodies() {
         super(Material.rock);
@@ -35,10 +38,12 @@ public class BlockGoodies extends Block {
         this.setResistance(10.0F);
         this.setStepSound(soundTypePiston);
 
-        this.setBlockName("Goodies");
-        this.setCreativeTab(CreativeTabs.tabBlock);
-    }
+        this.setUnlocalizedName(MineSweeper.MODID+"_"+name);
 
+        this.setCreativeTab(CreativeTabs.tabBlock);
+        GameRegistry.registerBlock(this, name);
+    }
+/*
     @Override
     public void registerBlockIcons(IIconRegister icon) {
         numbers = new IIcon[13];
@@ -63,41 +68,27 @@ public class BlockGoodies extends Block {
             return numbers[metadata];
 
     }
+*/
 
-    @Override
-    public boolean onBlockActivated(World world, int x, int y, int z,
-                                    EntityPlayer player, int p_149727_6_, float p_149727_7_,
-                                    float p_149727_8_, float p_149727_9_) {
-
-        if (world.getBlockMetadata(x, y, z) == 15) {
-            this.onBlockAdded(world, x, y, z);
-        } else {
-            world.setBlockMetadataWithNotify(x, y, z, 15, 2);
-        }
-
-        return super.onBlockActivated(world, x, y, z, player, p_149727_6_,
-                p_149727_7_, p_149727_8_, p_149727_9_);
-    }
-
-    public boolean hasTileEntity(int metadata) {
+  /*  public boolean hasTileEntity(int metadata) {
         return true;
-    }
+    }*/
+
+   // @Override
+   // public TileEntity createTileEntity(World world, int metadata) {
+      //  return new TileEntityMineFieldCompletionSearch();
+   // }
+
 
     @Override
-    public TileEntity createTileEntity(World world, int metadata) {
-        return new TileEntityMineFieldCompletionSearch();
-    }
-
-
-    @Override
-    public void breakBlock(World world, int x, int y, int z, Block block, int meta){
-        TileEntityMineFieldCompletionSearch b = (TileEntityMineFieldCompletionSearch) world.getTileEntity(x, y, z);
+    public void breakBlock(World world, BlockPos pos, IBlockState state){
+      /*  TileEntityMineFieldCompletionSearch b = (TileEntityMineFieldCompletionSearch) world.getTileEntity(x, y, z);
         if (b != null) {
             if (b.IsMineFieldCompleted(world)) {
                 b.ClearField(world);
             }
-        }
-        super.breakBlock(world, x, y, z, block, meta);
+        }*/
+        super.breakBlock(world, pos, state);
     }
 
 
@@ -219,7 +210,7 @@ public class BlockGoodies extends Block {
             var14.y =
                     ((float) this.rand.nextGaussian() * 0.2F);
                     }*/
-    	world.setBlock(x, y, z, MineSweeperBlocks.blockFloatingNumber, meta, 2);
+    	//world.setBlock(x, y, z, MineSweeperBlocks.blockFloatingNumber, meta, 2);
         
     }
 
@@ -251,58 +242,6 @@ public class BlockGoodies extends Block {
     }*/
 
 
-    @Override
-    public void onBlockAdded(World world, int x, int y, int z) {
-
-        int MineCount = 0;
-
-        MineCount += IsMineBlock(x - 1, y - 1, z - 1, world);
-        MineCount += IsMineBlock(x - 1, y - 1, z, world);
-        MineCount += IsMineBlock(x - 1, y - 1, z + 1, world);
-
-        MineCount += IsMineBlock(x + 1, y - 1, z - 1, world);
-        MineCount += IsMineBlock(x + 1, y - 1, z, world);
-        MineCount += IsMineBlock(x + 1, y - 1, z + 1, world);
-
-        MineCount += IsMineBlock(x, y - 1, z - 1, world);
-        MineCount += IsMineBlock(x, y - 1, z, world);
-        MineCount += IsMineBlock(x, y - 1, z + 1, world);
-
-        MineCount += IsMineBlock(x - 1, y + 1, z - 1, world);
-        MineCount += IsMineBlock(x - 1, y + 1, z, world);
-        MineCount += IsMineBlock(x - 1, y + 1, z + 1, world);
-
-        MineCount += IsMineBlock(x + 1, y + 1, z - 1, world);
-        MineCount += IsMineBlock(x + 1, y + 1, z, world);
-        MineCount += IsMineBlock(x + 1, y + 1, z + 1, world);
-
-        MineCount += IsMineBlock(x, y + 1, z - 1, world);
-        MineCount += IsMineBlock(x, y + 1, z, world);
-        MineCount += IsMineBlock(x, y + 1, z + 1, world);
-
-        MineCount += IsMineBlock(x - 1, y, z - 1, world);
-        MineCount += IsMineBlock(x - 1, y, z, world);
-        MineCount += IsMineBlock(x - 1, y, z + 1, world);
-
-        MineCount += IsMineBlock(x + 1, y, z - 1, world);
-        MineCount += IsMineBlock(x + 1, y, z, world);
-        MineCount += IsMineBlock(x + 1, y, z + 1, world);
-
-        MineCount += IsMineBlock(x, y, z - 1, world);
-        MineCount += IsMineBlock(x, y, z + 1, world);
-
-        if (MineCount > 14) {
-            MineCount = 14;
-        }
-
-        world.setBlockMetadataWithNotify(x, y, z, MineCount - 1, 2);
-
-		/*
-         * if (MineCount == 0) { world.e(x, y, z, 0); } else { world.c(x, y, z,
-		 * MineCount); }
-		 */
-    }
-
 /*
     public boolean a(World par1World, int par2, int par3, int par4, qx, par5EntityPlayer, int par6, float par7, float par8, float par9) {
         if(par5EntityPlayer.bI.g().b() == uk.D) {
@@ -314,9 +253,6 @@ public class BlockGoodies extends Block {
     }
 */
 
-    private int IsMineBlock(int x, int y, int z, World world) {
-        return world.getBlock(x, y, z) instanceof BlockExplosiveMine ? 1 : 0;
-    }
 	/*
 	 * public int a(Random par1Random) { return 0; }
 	 */
