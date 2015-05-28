@@ -43,3 +43,14 @@ mods
 saves
 options.txt
 usernamecache.json
+
+.idea
+.settings
+.gradle
+
+.project
+.classpath
+
+Minesweeper.iml
+
+build
