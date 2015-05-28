@@ -15,21 +15,11 @@ import net.minecraft.tileentity.TileEntity;
    public int[] xNumberBlocks = new int[0];
    public int[] yNumberBlocks = new int[0];
    public int[] zNumberBlocks = new int[0];
-   
+
    public int[] xExplosiveBlocks = new int[0];
    public int[] yExplosiveBlocks = new int[0];
    public int[] zExplosiveBlocks = new int[0];
-   
- 
- 
-   public boolean canUpdate()
-   {
-     return false;
-   }
-   
- 
- 
- 
+
  
    public boolean IsMineFieldCompleted(World world)
    {
@@ -56,9 +46,6 @@ import net.minecraft.tileentity.TileEntity;
      }
      return true;
    }
-   
- 
- 
  
    public void ClearField(World world)
    {
@@ -73,11 +60,7 @@ import net.minecraft.tileentity.TileEntity;
        world.setBlockToAir(new BlockPos(this.xNumberBlocks[i], this.yNumberBlocks[i], this.zNumberBlocks[i]));
      }
    }
-   
- 
- 
- 
- 
+
  
    public void writeToNBT(NBTTagCompound par1NBTTagCompound)
    {
@@ -90,10 +73,7 @@ import net.minecraft.tileentity.TileEntity;
      par1NBTTagCompound.setIntArray("Yex", this.yExplosiveBlocks);
      par1NBTTagCompound.setIntArray("Zex", this.zExplosiveBlocks);
    }
-   
- 
- 
- 
+
  
    public void readFromNBT(NBTTagCompound par1NBTTagCompound)
    {
@@ -108,8 +88,3 @@ import net.minecraft.tileentity.TileEntity;
    }
  }
 
-
-/* Location:              C:\Users\Michael\Desktop\oldComputer\MinecraftMods\MineSweeper\!\MineSweeper\TileEntityMineFieldCompletionSearch.class
- * Java compiler version: 6 (50.0)
- * JD-Core Version:       0.7.1
- */

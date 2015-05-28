@@ -1,28 +1,30 @@
  package com.minesweeper.tileEntities;
  
 
+import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 
  public class TileEntityFloatingNumber
-   extends TileEntity
+   extends TileEntity implements IUpdatePlayerListBox
  {
    public float riseFall = 0.0F;
    private float circle = 0.0F;
    public World world;
-   
-   public TileEntityFloatingNumber(World world)
-   {
-	   this.world= world;
+
+   public static final String name = "tileEntityFloatingNumber";
+
+   public TileEntityFloatingNumber() {
      this.circle = ((float)(Math.random() * 3.14D * 2.0D));
+
    }
-   
-   @SideOnly(Side.CLIENT)
-   public void g()
-   {
+
+   @Override
+   public void update() {
      this.circle = ((float)(this.circle + 0.1D));
      this.riseFall = ((float)Math.sin(this.circle) * 0.09F);
      if (this.circle > 6.28D)

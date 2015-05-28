@@ -1,9 +1,11 @@
 package com.minesweeper.blocks;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
@@ -79,7 +81,7 @@ public class BlockGoodies  extends BaseFieldBlock{
       //  return new TileEntityMineFieldCompletionSearch();
    // }
 
-
+/*
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state){
       /*  TileEntityMineFieldCompletionSearch b = (TileEntityMineFieldCompletionSearch) world.getTileEntity(x, y, z);
@@ -88,8 +90,10 @@ public class BlockGoodies  extends BaseFieldBlock{
                 b.ClearField(world);
             }
         }*/
-        super.breakBlock(world, pos, state);
-    }
+        //super.breakBlock(world, pos, state);
+    //}
+
+
 
 
     public void c(World world, int x, int y, int z, int meta) {
@@ -213,6 +217,26 @@ public class BlockGoodies  extends BaseFieldBlock{
     	//world.setBlock(x, y, z, MineSweeperBlocks.blockFloatingNumber, meta, 2);
         
     }
+/*
+    @Override
+    public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
+        if(world.setBlockState(pos, MineSweeperBlocks.blockFloatingNumber.getDefaultState(), 2))
+        {
+            world.getBlockState(pos).withProperty(BaseFieldBlock.STATES,state.getValue(BaseFieldBlock.STATES));
+        }
+
+    }
+*/
+    @Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+    {
+        super.breakBlock(worldIn,pos,state);
+        if(worldIn.setBlockState(pos, MineSweeperBlocks.blockFloatingNumber.getDefaultState(), 2))
+        {
+            worldIn.getBlockState(pos).withProperty(BaseFieldBlock.STATES, state.getValue(BaseFieldBlock.STATES));
+        }
+    }
+
 
 
  /*   private void ChanceToSpawnGoods(World world, int x, int y, int z, amj b,

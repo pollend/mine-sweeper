@@ -1,5 +1,6 @@
 package com.minesweeper;
 
+import com.minesweeper.Render.RenderFloatingNumber;
 import com.minesweeper.tileEntities.TileEntityFloatingNumber;
 
 import net.minecraftforge.fml.client.registry.ClientRegistry;

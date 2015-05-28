@@ -1,4 +1,4 @@
- package com.minesweeper;
+ package com.minesweeper.Render;
 
 import net.minecraft.block.Block;
 
