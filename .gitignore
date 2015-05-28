@@ -38,8 +38,8 @@ run
 /.recommenders
 /config
 /crash-reports
-/logs
-/mods
-/saves
+/logs/*
+/mods/*
+/saves/*
 options.txt
 usernamecache.json
