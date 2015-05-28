@@ -11,7 +11,7 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-#eclipse
+eclipse
 .project
 .classpath
 org.*
@@ -33,15 +33,6 @@ run
 
 #mac
 .DS_Store
-
-.recommenders
-config
-crash-reports
-logs
-mods
-saves
-options.txt
-usernamecache.json
 
 .idea
 .settings
