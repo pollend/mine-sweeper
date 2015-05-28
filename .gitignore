@@ -36,10 +36,10 @@ run
 .DS_Store
 
 /.recommenders
-/config
-/crash-reports
-/logs/*
-/mods/*
-/saves/*
+config
+crash-reports
+logs
+mods
+saves
 options.txt
 usernamecache.json
