@@ -14,7 +14,6 @@ hs_err_pid*
 #eclipse
 .project
 .classpath
-.metadata
 org.*
 bin
 
@@ -35,7 +34,7 @@ run
 #mac
 .DS_Store
 
-/.recommenders
+.recommenders
 config
 crash-reports
 logs
