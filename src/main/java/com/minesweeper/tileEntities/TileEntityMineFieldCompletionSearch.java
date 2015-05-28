@@ -12,36 +12,38 @@ import net.minecraft.tileentity.TileEntity;
  public class TileEntityMineFieldCompletionSearch
    extends TileEntity
  {
-   public int[] xNumberBlocks = new int[0];
-   public int[] yNumberBlocks = new int[0];
-   public int[] zNumberBlocks = new int[0];
+   public BlockPos[] goodies =new BlockPos[0];
+   public BlockPos[] explosives =new BlockPos[0];
 
-   public int[] xExplosiveBlocks = new int[0];
-   public int[] yExplosiveBlocks = new int[0];
-   public int[] zExplosiveBlocks = new int[0];
+   public  TileEntityMineFieldCompletionSearch()
+   {
 
- 
+   }
+
+ public TileEntityMineFieldCompletionSearch(BlockPos[] goodies, BlockPos[] explosives)
+ {
+   this.goodies = goodies;
+   this.explosives = explosives;
+ }
+
    public boolean IsMineFieldCompleted(World world)
    {
-     if (this.xExplosiveBlocks.length == 0)
+     if (this.explosives.length == 0)
      {
        return false;
      }
-     for (int i = 0; i < this.xExplosiveBlocks.length; i++)
+     for (int i = 0; i < this.explosives.length; i++)
      {
-       if (!(world.getBlockState(new BlockPos(this.xExplosiveBlocks[i], this.yExplosiveBlocks[i], this.zExplosiveBlocks[i])).getBlock() instanceof BlockExplosiveMine))
+       if (!(world.getBlockState(explosives[i]).getBlock() instanceof BlockExplosiveMine))
        {
          return false;
        }
      }
-     int maxAllowedGoodieBlocks = 1;
-     for (int i = 0; i < this.xNumberBlocks.length; i++)
+     for (int i = 0; i < this.goodies.length; i++)
      {
-       if (!(world.getBlockState(new BlockPos(this.xNumberBlocks[i], this.yNumberBlocks[i], this.zNumberBlocks[i])).getBlock() instanceof BlockFloatingNumber))
+       if (!((world.getBlockState(goodies[i])).getBlock() instanceof BlockFloatingNumber))
        {
-         if (maxAllowedGoodieBlocks <= 0)
            return false;
-         maxAllowedGoodieBlocks--;
        }
      }
      return true;
@@ -49,42 +51,66 @@ import net.minecraft.tileentity.TileEntity;
  
    public void ClearField(World world)
    {
-     for (int i = 0; i < this.xExplosiveBlocks.length; i++)
+     for (int i = 0; i < this.explosives.length; i++)
      {
-       world.setBlockToAir(new BlockPos(this.xExplosiveBlocks[i], this.yExplosiveBlocks[i], this.zExplosiveBlocks[i]));
+       world.setBlockToAir(explosives[i]);
      }
      
  
-     for (int i = 0; i < this.xNumberBlocks.length; i++)
+     for (int i = 0; i < this.goodies.length; i++)
      {
-       world.setBlockToAir(new BlockPos(this.xNumberBlocks[i], this.yNumberBlocks[i], this.zNumberBlocks[i]));
+       world.setBlockToAir(goodies[i]);
      }
    }
 
- 
+
+   private void   writePositionsToNbtTags(NBTTagCompound tagCompound,String key, BlockPos[] pos)
+   {
+     int[] lx = new int[pos.length];
+     int[] ly = new int[pos.length];
+     int[] lz = new int[pos.length];
+     for(int i = 0; i < pos.length; i++)
+     {
+       lx[i] = pos[i].getX();
+       ly[i] = pos[i].getY();
+       lz[i] = pos[i].getZ();
+     }
+     tagCompound.setIntArray(key + "x",lx);
+     tagCompound.setIntArray(key + "y",ly);
+     tagCompound.setIntArray(key + "z",lz);
+
+   }
+
+   private BlockPos[]  readPositionsFromNbtTags(NBTTagCompound tagCompound,String key)
+   {
+     int[] lx =tagCompound.getIntArray(key + "x");
+     int[] ly = tagCompound.getIntArray(key + "y");
+     int[] lz = tagCompound.getIntArray(key + "z");
+
+     BlockPos[] pos = new BlockPos[lx.length];
+
+     for(int i = 0; i < lx.length; i++)
+     {
+       pos[i] = new BlockPos(lx[i],ly[i],lz[i]);
+     }
+     return  pos;
+   }
+
+
    public void writeToNBT(NBTTagCompound par1NBTTagCompound)
    {
      super.writeToNBT(par1NBTTagCompound);
-     par1NBTTagCompound.setIntArray("Xg", this.xNumberBlocks);
-     par1NBTTagCompound.setIntArray("Yg", this.yNumberBlocks);
-     par1NBTTagCompound.setIntArray("Zg", this.zNumberBlocks);
-     
-     par1NBTTagCompound.setIntArray("Xex", this.xExplosiveBlocks);
-     par1NBTTagCompound.setIntArray("Yex", this.yExplosiveBlocks);
-     par1NBTTagCompound.setIntArray("Zex", this.zExplosiveBlocks);
+     this.writePositionsToNbtTags(par1NBTTagCompound,"goodies",this.goodies);
+     this.writePositionsToNbtTags(par1NBTTagCompound,"explosiveBlocks",this.explosives);
    }
 
  
    public void readFromNBT(NBTTagCompound par1NBTTagCompound)
    {
      super.readFromNBT(par1NBTTagCompound);
-     this.xNumberBlocks = par1NBTTagCompound.getIntArray("Xg");
-     this.yNumberBlocks = par1NBTTagCompound.getIntArray("Yg");
-     this.zNumberBlocks = par1NBTTagCompound.getIntArray("Zg");
-     
-     this.xExplosiveBlocks = par1NBTTagCompound.getIntArray("Xex");
-     this.yExplosiveBlocks = par1NBTTagCompound.getIntArray("Yex");
-     this.zExplosiveBlocks = par1NBTTagCompound.getIntArray("Zex");
+    this.goodies= this.readPositionsFromNbtTags(par1NBTTagCompound,"goodies");
+     this.explosives = this.readPositionsFromNbtTags(par1NBTTagCompound,"explosiveBlocks");
+
    }
  }
 

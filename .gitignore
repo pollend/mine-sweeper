@@ -34,3 +34,12 @@ run
 
 #mac
 .DS_Store
+
+/.recommenders
+/config
+/crash-reports
+/logs
+/mods
+/saves
+options.txt
+usernamecache.json

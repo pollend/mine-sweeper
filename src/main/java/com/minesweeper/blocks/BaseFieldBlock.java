@@ -32,15 +32,13 @@ public class BaseFieldBlock  extends Block{
     @Override
     public IBlockState getStateFromMeta(int meta)
     {
-
         return getDefaultState().withProperty(STATES, Integer.valueOf(meta));
     }
 
     @Override
     public int getMetaFromState(IBlockState state)
     {
-        int value = ((Integer)state.getValue(STATES)).intValue();
-        return value;
+        return ((Integer)state.getValue(STATES)).intValue();
     }
 
 
@@ -87,7 +85,6 @@ public class BaseFieldBlock  extends Block{
             MineCount += IsMineBlock(pos.add(1, 0, 1), world);
 
             MineCount += IsMineBlock(pos.add(0, 0, -1), world);
-
             MineCount += IsMineBlock(pos.add(0, 0, 1), world);
 
 
@@ -95,12 +92,15 @@ public class BaseFieldBlock  extends Block{
                 MineCount = 14;
             }
             if(MineCount < 0)
-                MineCount = 0;
+                world.setBlockToAir(pos);
+            else {
 
-            world.setBlockState(pos, state.withProperty(STATES, Integer.valueOf(MineCount)), 2);
+                world.setBlockState(pos, state.withProperty(STATES, Integer.valueOf(MineCount)), 2);
+            }
+                super.onBlockAdded(world,pos,state);
     }
 
-    private int IsMineBlock(BlockPos pos, World world)
+    protected int IsMineBlock(BlockPos pos, World world)
     {
 
         return world.getBlockState(pos).getBlock() instanceof BlockExplosiveMine ? 1 : 0;

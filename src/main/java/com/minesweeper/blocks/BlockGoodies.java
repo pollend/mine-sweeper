@@ -2,6 +2,7 @@ package com.minesweeper.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -16,7 +17,7 @@ import com.minesweeper.MineSweeper;
 import com.minesweeper.tileEntities.TileEntityMineFieldCompletionSearch;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class BlockGoodies  extends BaseFieldBlock{
+public class BlockGoodies  extends BaseFieldBlock  implements ITileEntityProvider {
 
 
     Random rand = new Random();
@@ -32,9 +33,6 @@ public class BlockGoodies  extends BaseFieldBlock{
 
     public BlockGoodies() {
         super(Material.rock);
-        // super.c(1.5F);
-        // super.b(10.0F);
-        // super.r();
 
         this.setHardness(1.5F);
         this.setResistance(10.0F);
@@ -43,6 +41,7 @@ public class BlockGoodies  extends BaseFieldBlock{
         this.setUnlocalizedName(MineSweeper.MODID+"_"+name);
 
         this.setCreativeTab(CreativeTabs.tabBlock);
+
         GameRegistry.registerBlock(this, name);
     }
 /*
@@ -228,13 +227,25 @@ public class BlockGoodies  extends BaseFieldBlock{
     }
 */
     @Override
-    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
-    {
-        super.breakBlock(worldIn,pos,state);
+    public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
         if(worldIn.setBlockState(pos, MineSweeperBlocks.blockFloatingNumber.getDefaultState(), 2))
         {
             worldIn.getBlockState(pos).withProperty(BaseFieldBlock.STATES, state.getValue(BaseFieldBlock.STATES));
         }
+
+        TileEntityMineFieldCompletionSearch compleitionSearch =((TileEntityMineFieldCompletionSearch) worldIn.getTileEntity(pos));
+        if(compleitionSearch != null) {
+            if (compleitionSearch.IsMineFieldCompleted(worldIn)) {
+                compleitionSearch.ClearField(worldIn);
+            }
+        }
+    }
+
+
+
+    @Override
+    public TileEntity createNewTileEntity(World worldIn, int meta) {
+        return new TileEntityMineFieldCompletionSearch();
     }
 
 

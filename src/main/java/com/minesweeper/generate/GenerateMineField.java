@@ -23,159 +23,125 @@ import net.minecraftforge.fml.common.IWorldGenerator;
  {
    private final int CHUNKSIZE = 16;
    
-   List xGoodieBlock = new ArrayList();
-   List yGoodieBlock = new ArrayList();
-   List zGoodieBlock = new ArrayList();
-   
-   List xMineBlock = new ArrayList();
-   List yMineBlock = new ArrayList();
-   List zMineBlock = new ArrayList();
+   List<BlockPos> goodieBlock = new ArrayList<BlockPos>();
+   List<BlockPos> mineBlock = new ArrayList<BlockPos>();
 
 
    @Override
    public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-     int y = random.nextInt(63) - 15;
-     int x = chunkX * 16 + random.nextInt(16);
-     int z = chunkZ * 16 + random.nextInt(16);
+     BlockPos fieldLocation = new BlockPos(chunkX * 16 + random.nextInt(16),random.nextInt(20) +15,chunkZ * 16 + random.nextInt(16));
      int size = random.nextInt(40) + 40;
      if (random.nextFloat() * 100.0F > 97.0F)
      {
 
-       this.xGoodieBlock = new ArrayList();
-       this.yGoodieBlock = new ArrayList();
-       this.zGoodieBlock = new ArrayList();
-       
-       this.xMineBlock = new ArrayList();
-       this.yMineBlock = new ArrayList();
-       this.zMineBlock = new ArrayList();
-       
- 
- 
+       this.goodieBlock = new ArrayList<BlockPos>();
+       this.mineBlock = new ArrayList<BlockPos>();
+
        for (int i = size; i > 0; i--) {
-         AddMine(x + random.nextInt(10) - 5, y + random.nextInt(10) - 5, z + random.nextInt(10) - 5, world);
+         AddMine(fieldLocation.add(random.nextInt(10) - 5,  random.nextInt(10) - 5, random.nextInt(10) - 5), world);
        }
-       
-       /*for (int i = 0; i < this.xGoodieBlock.size(); i++)
+
+       for(int i =0; i < goodieBlock.size(); i++)
        {
-         if (!(world.getBlock(((Integer)this.xGoodieBlock.get(i)).intValue(), ((Integer)this.yGoodieBlock.get(i)).intValue(), ((Integer)this.zGoodieBlock.get(i))) instanceof BlockGoodies))
+         if(!(world.getBlockState(goodieBlock.get(i)).getBlock() instanceof  BlockGoodies))
          {
-           this.xGoodieBlock.remove(i);
-           this.yGoodieBlock.remove(i);
-           this.zGoodieBlock.remove(i);
+           goodieBlock.remove(i);
            i--;
          }
-       }*/
-       
- 
-       for (int i = 0; i < this.xGoodieBlock.size(); i++)
-       {
 
-        // world.setBlock(((Integer)this.xGoodieBlock.get(i)).intValue(), ((Integer)this.yGoodieBlock.get(i)).intValue(), ((Integer)this.zGoodieBlock.get(i)).intValue(), MineSweeperBlocks.blockGoodies,0,2);
-      /*   TileEntityMineFieldCompletionSearch t = (TileEntityMineFieldCompletionSearch)world.getTileEntity(((Integer) this.xGoodieBlock.get(i)).intValue(), ((Integer) this.yGoodieBlock.get(i)).intValue(), ((Integer) this.zGoodieBlock.get(i)).intValue());
-         
- 
-         t.xNumberBlocks = new int[this.xGoodieBlock.size()];
-         t.yNumberBlocks = new int[this.xGoodieBlock.size()];
-         t.zNumberBlocks = new int[this.xGoodieBlock.size()];
-         
-         t.xExplosiveBlocks = new int[this.xMineBlock.size()];
-         t.yExplosiveBlocks = new int[this.xMineBlock.size()];
-         t.zExplosiveBlocks = new int[this.xMineBlock.size()];
-         
-         t.xExplosiveBlocks = ConvertingListOfIntegersToArray(this.xMineBlock);
-         t.yExplosiveBlocks = ConvertingListOfIntegersToArray(this.yMineBlock);
-         t.zExplosiveBlocks = ConvertingListOfIntegersToArray(this.zMineBlock);
-         
-         t.xNumberBlocks = ConvertingListOfIntegersToArray(this.xGoodieBlock);
-         t.yNumberBlocks = ConvertingListOfIntegersToArray(this.yGoodieBlock);
-         t.zNumberBlocks = ConvertingListOfIntegersToArray(this.zGoodieBlock);*/
+       }
+
+       for(int i =0; i < mineBlock.size(); i++)
+       {
+         if(!(world.getBlockState(mineBlock.get(i)).getBlock() instanceof  BlockExplosiveMine))
+         {
+           mineBlock.remove(i);
+           i--;
+         }
+
+       }
+
+       BlockPos[] lgoodieBlocks = (BlockPos[])this.goodieBlock.toArray(new BlockPos[0]);
+       BlockPos[] lmineBlocks = (BlockPos[])this.mineBlock.toArray(new BlockPos[0]);
+       for (int i = 0; i < lgoodieBlocks.length; i++)
+       {
+         world.setTileEntity(lgoodieBlocks[i], new TileEntityMineFieldCompletionSearch(lgoodieBlocks, lmineBlocks));
+       }
+       for (int i = 0; i < lmineBlocks.length; i++)
+       {
+         world.setTileEntity(lmineBlocks[i], new TileEntityMineFieldCompletionSearch(lgoodieBlocks, lmineBlocks));
        }
      }
    }
-   
- 
- 
- 
- 
-   private int[] ConvertingListOfIntegersToArray(List lst)
+
+
+
+
+   public void AddMine(BlockPos pos, World world)
    {
-     int[] array = new int[lst.size()];
-     for (int x = 0; x < lst.size(); x++)
+     if (!(world.getBlockState(pos).getBlock() instanceof BlockExplosiveMine))
      {
-       array[x] = ((Integer)lst.get(x)).intValue();
-     }
-     return array;
-   }
-   
-   public void AddMine(int x, int y, int z, World world)
-   {
-     if (!(world.getBlockState(new BlockPos(x, y, z)).getBlock() instanceof BlockExplosiveMine))
-     {
-       world.setBlockState(new BlockPos(x, y, z), MineSweeperBlocks.blockExplosiveMine.getDefaultState());
-       this.xMineBlock.add(Integer.valueOf(x));
-       this.yMineBlock.add(Integer.valueOf(y));
-       this.zMineBlock.add(Integer.valueOf(z));
-       
- 
-       SetNumberBlock(x - 1, y - 1, z - 1, world);
-       SetNumberBlock(x - 1, y - 1, z, world);
-       SetNumberBlock(x - 1, y - 1, z + 1, world);
-       
-       SetNumberBlock(x + 1, y - 1, z - 1, world);
-       SetNumberBlock(x + 1, y - 1, z, world);
-       SetNumberBlock(x + 1, y - 1, z + 1, world);
-       
-       SetNumberBlock(x, y - 1, z - 1, world);
-       SetNumberBlock(x, y - 1, z, world);
-       SetNumberBlock(x, y - 1, z + 1, world);
-       
- 
-       SetNumberBlock(x - 1, y + 1, z - 1, world);
-       SetNumberBlock(x - 1, y + 1, z, world);
-       SetNumberBlock(x - 1, y + 1, z + 1, world);
-       
-       SetNumberBlock(x + 1, y + 1, z - 1, world);
-       SetNumberBlock(x + 1, y + 1, z, world);
-       SetNumberBlock(x + 1, y + 1, z + 1, world);
-       
-       SetNumberBlock(x, y + 1, z - 1, world);
-       SetNumberBlock(x, y + 1, z, world);
-       SetNumberBlock(x, y + 1, z + 1, world);
-       
- 
-       SetNumberBlock(x - 1, y, z - 1, world);
-       SetNumberBlock(x - 1, y, z, world);
-       SetNumberBlock(x - 1, y, z + 1, world);
-       
-       SetNumberBlock(x + 1, y, z - 1, world);
-       SetNumberBlock(x + 1, y, z, world);
-       SetNumberBlock(x + 1, y, z + 1, world);
-       
-       SetNumberBlock(x, y, z - 1, world);
-       SetNumberBlock(x, y, z + 1, world);
+       world.setBlockState(pos, MineSweeperBlocks.blockExplosiveMine.getDefaultState(),2);
+       this.mineBlock.add(pos);
+
+       SetNumberBlock(pos.add(-1, -1, -1), world);
+       SetNumberBlock(pos.add(-1, -1, 0), world);
+       SetNumberBlock(pos.add(-1, -1, 1), world);
+
+       SetNumberBlock(pos.add(1, -1, -1), world);
+       SetNumberBlock(pos.add(1, -1, 0), world);
+       SetNumberBlock(pos.add(1, -1, 1), world);
+
+       SetNumberBlock(pos.add(0, -1, -1), world);
+       SetNumberBlock(pos.add(0, -1, 0), world);
+       SetNumberBlock(pos.add(0, -1, 1), world);
+
+
+       SetNumberBlock(pos.add(-1, 1, -1), world);
+       SetNumberBlock(pos.add(-1, 1, 0), world);
+       SetNumberBlock(pos.add(-1, 1, 1), world);
+
+       SetNumberBlock(pos.add(1, 1, -1), world);
+       SetNumberBlock(pos.add(1, 1, 0), world);
+       SetNumberBlock(pos.add(1, 1, 1), world);
+
+       SetNumberBlock(pos.add(0, 1, -1), world);
+       SetNumberBlock(pos.add(0, 1, 0), world);
+       SetNumberBlock(pos.add(0, 1, 1), world);
+
+
+       SetNumberBlock(pos.add(-1, 0, -1), world);
+       SetNumberBlock(pos.add(-1, 0, 0), world);
+       SetNumberBlock(pos.add(-1, 0, 1), world);
+
+       SetNumberBlock(pos.add(1, 0, -1), world);
+       SetNumberBlock(pos.add(1, 0, 0), world);
+       SetNumberBlock(pos.add(1, 0, 1), world);
+
+       SetNumberBlock(pos.add(0, 0, -1), world);
+       SetNumberBlock(pos.add(0, 0, 1), world);
+
+
      }
    }
-   
- 
-   public void SetNumberBlock(int x, int y, int z, World world)
+
+
+   public void SetNumberBlock(BlockPos pos, World world)
    {
-     if (world.getBlockState(new BlockPos(x, y, z)).getBlock() instanceof BlockExplosiveMine)
+     if (world.getBlockState(pos).getBlock() instanceof BlockExplosiveMine)
      {
- 
-       world.setBlockState(new BlockPos(x, y, z), MineSweeperBlocks.blockExplosiveMine.getDefaultState());
+
+       world.setBlockState(pos, MineSweeperBlocks.blockExplosiveMine.getDefaultState(),2);
      }
-     else if(!(world.getBlockState(new BlockPos(x, y, z)).getBlock() instanceof BlockGoodies))
+     else if(!(world.getBlockState(pos).getBlock() instanceof BlockGoodies) && !(world.getBlockState(pos).getBlock() instanceof BlockExplosiveMine))
      {
-    
-       world.setBlockState(new BlockPos(x, y, z),  MineSweeperBlocks.blockGoodies.getDefaultState());
-      
-       this.xGoodieBlock.add(Integer.valueOf(x));
-       this.yGoodieBlock.add(Integer.valueOf(y));
-       this.zGoodieBlock.add(Integer.valueOf(z));
+
+       world.setBlockState(pos,  MineSweeperBlocks.blockGoodies.getDefaultState(),2);
+      this.goodieBlock.add(pos);
      }
 
-     IBlockState selectedBlock =  world.getBlockState(new BlockPos(x, y, z));
-     selectedBlock.getBlock().onBlockAdded(world, new BlockPos(x,y,z),selectedBlock);
+     IBlockState selectedBlock =  world.getBlockState(pos);
+     selectedBlock.getBlock().onBlockAdded(world, pos,selectedBlock);
 
    }
 
