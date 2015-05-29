@@ -47,57 +47,58 @@ public class BaseFieldBlock  extends Block{
         return  0;
     }
 
+
+
     @Override
     public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
-            int MineCount = getStartingCount();
-            MineCount += IsMineBlock(pos.add(-1, -1, -1), world);
-            MineCount += IsMineBlock(pos.add(-1, -1, 0), world);
-            MineCount += IsMineBlock(pos.add(-1, -1, 1), world);
+        int MineCount = getStartingCount();
+        MineCount += IsMineBlock(pos.add(-1, -1, -1), world);
+        MineCount += IsMineBlock(pos.add(-1, -1, 0), world);
+        MineCount += IsMineBlock(pos.add(-1, -1, 1), world);
 
-            MineCount += IsMineBlock(pos.add(1, -1, -1), world);
-            MineCount += IsMineBlock(pos.add(1, -1, 0), world);
-            MineCount += IsMineBlock(pos.add(1, -1, 1), world);
+        MineCount += IsMineBlock(pos.add(1, -1, -1), world);
+        MineCount += IsMineBlock(pos.add(1, -1, 0), world);
+        MineCount += IsMineBlock(pos.add(1, -1, 1), world);
 
-            MineCount += IsMineBlock(pos.add(0, -1, -1), world);
-            MineCount += IsMineBlock(pos.add(0, -1, 0), world);
-            MineCount += IsMineBlock(pos.add(0, -1, 1), world);
-
-
-            MineCount += IsMineBlock(pos.add(-1, 1, -1), world);
-            MineCount += IsMineBlock(pos.add(-1, 1, 0), world);
-            MineCount += IsMineBlock(pos.add(-1, 1, 1), world);
-
-            MineCount += IsMineBlock(pos.add(1, 1, -1), world);
-            MineCount += IsMineBlock(pos.add(1, 1, 0), world);
-            MineCount += IsMineBlock(pos.add(1, 1, 1), world);
-
-            MineCount += IsMineBlock(pos.add(0, 1, -1), world);
-            MineCount += IsMineBlock(pos.add(0, 1, 0), world);
-            MineCount += IsMineBlock(pos.add(0, 1, 1), world);
+        MineCount += IsMineBlock(pos.add(0, -1, -1), world);
+        MineCount += IsMineBlock(pos.add(0, -1, 0), world);
+        MineCount += IsMineBlock(pos.add(0, -1, 1), world);
 
 
-            MineCount += IsMineBlock(pos.add(-1, 0, -1), world);
-            MineCount += IsMineBlock(pos.add(-1, 0, 0), world);
-            MineCount += IsMineBlock(pos.add(-1, 0, 1), world);
+        MineCount += IsMineBlock(pos.add(-1, 1, -1), world);
+        MineCount += IsMineBlock(pos.add(-1, 1, 0), world);
+        MineCount += IsMineBlock(pos.add(-1, 1, 1), world);
 
-            MineCount += IsMineBlock(pos.add(1, 0, -1), world);
-            MineCount += IsMineBlock(pos.add(1, 0, 0), world);
-            MineCount += IsMineBlock(pos.add(1, 0, 1), world);
+        MineCount += IsMineBlock(pos.add(1, 1, -1), world);
+        MineCount += IsMineBlock(pos.add(1, 1, 0), world);
+        MineCount += IsMineBlock(pos.add(1, 1, 1), world);
 
-            MineCount += IsMineBlock(pos.add(0, 0, -1), world);
-            MineCount += IsMineBlock(pos.add(0, 0, 1), world);
+        MineCount += IsMineBlock(pos.add(0, 1, -1), world);
+        MineCount += IsMineBlock(pos.add(0, 1, 0), world);
+        MineCount += IsMineBlock(pos.add(0, 1, 1), world);
 
 
-            if (MineCount > 14) {
-                MineCount = 14;
-            }
-            if(MineCount < 0)
-                world.setBlockToAir(pos);
-            else {
+        MineCount += IsMineBlock(pos.add(-1, 0, -1), world);
+        MineCount += IsMineBlock(pos.add(-1, 0, 0), world);
+        MineCount += IsMineBlock(pos.add(-1, 0, 1), world);
 
-                world.setBlockState(pos, state.withProperty(STATES, Integer.valueOf(MineCount)), 2);
-            }
-                super.onBlockAdded(world,pos,state);
+        MineCount += IsMineBlock(pos.add(1, 0, -1), world);
+        MineCount += IsMineBlock(pos.add(1, 0, 0), world);
+        MineCount += IsMineBlock(pos.add(1, 0, 1), world);
+
+        MineCount += IsMineBlock(pos.add(0, 0, -1), world);
+        MineCount += IsMineBlock(pos.add(0, 0, 1), world);
+
+
+        if (MineCount > 14) {
+            MineCount = 14;
+        }
+        if(MineCount < 0)
+            world.setBlockToAir(pos);
+        else {
+            world.setBlockState(pos, state.withProperty(STATES, Integer.valueOf(MineCount)), 2);
+        }
+            super.onBlockAdded(world, pos, state);
     }
 
     protected int IsMineBlock(BlockPos pos, World world)

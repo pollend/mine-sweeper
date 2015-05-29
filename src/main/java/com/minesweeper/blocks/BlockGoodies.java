@@ -228,11 +228,6 @@ public class BlockGoodies  extends BaseFieldBlock  implements ITileEntityProvide
 */
     @Override
     public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
-        if(worldIn.setBlockState(pos, MineSweeperBlocks.blockFloatingNumber.getDefaultState(), 2))
-        {
-            worldIn.getBlockState(pos).withProperty(BaseFieldBlock.STATES, state.getValue(BaseFieldBlock.STATES));
-        }
-
         TileEntityMineFieldCompletionSearch compleitionSearch =((TileEntityMineFieldCompletionSearch) worldIn.getTileEntity(pos));
         if(compleitionSearch != null) {
             if (compleitionSearch.IsMineFieldCompleted(worldIn)) {
@@ -240,7 +235,11 @@ public class BlockGoodies  extends BaseFieldBlock  implements ITileEntityProvide
             }
         }
     }
+    @Override
+    public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, IBlockState state) {
+        worldIn.setBlockState(pos, MineSweeperBlocks.blockFloatingNumber.getDefaultState(), 2);
 
+    }
 
 
     @Override

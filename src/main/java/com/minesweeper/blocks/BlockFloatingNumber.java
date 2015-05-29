@@ -23,15 +23,15 @@ import com.minesweeper.tileEntities.TileEntityFloatingNumber;
         public BlockFloatingNumber()
         {
               super(Material.air);
-            this.setUnlocalizedName(MineSweeper.MODID+"_"+name);
+          //  this.setUnlocalizedName(MineSweeper.MODID+"_"+name);
             GameRegistry.registerBlock(this, name);
         }
-    /* @Override
+     @Override
      public int getRenderType()
      {
          return -1;
      }
-*/
+
 
      @Override
         public boolean isOpaqueCube(){
@@ -42,11 +42,7 @@ import com.minesweeper.tileEntities.TileEntityFloatingNumber;
      {
          return false;
      }
-     @Override
-     public int getRenderType()
-     {
-         return -1;
-     }
+
      @Override
      public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
      {

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.minesweeper.blocks.BaseFieldBlock;
 import com.minesweeper.blocks.BlockExplosiveMine;
 import com.minesweeper.blocks.BlockGoodies;
 import com.minesweeper.blocks.MineSweeperBlocks;
@@ -65,11 +66,11 @@ import net.minecraftforge.fml.common.IWorldGenerator;
        BlockPos[] lmineBlocks = (BlockPos[])this.mineBlock.toArray(new BlockPos[0]);
        for (int i = 0; i < lgoodieBlocks.length; i++)
        {
-         world.setTileEntity(lgoodieBlocks[i], new TileEntityMineFieldCompletionSearch(lgoodieBlocks, lmineBlocks));
+         world.setTileEntity(lgoodieBlocks[i], new TileEntityMineFieldCompletionSearch(lmineBlocks[0],lgoodieBlocks, lmineBlocks));
        }
        for (int i = 0; i < lmineBlocks.length; i++)
        {
-         world.setTileEntity(lmineBlocks[i], new TileEntityMineFieldCompletionSearch(lgoodieBlocks, lmineBlocks));
+         world.setTileEntity(lmineBlocks[i], new TileEntityMineFieldCompletionSearch(lmineBlocks[0],lgoodieBlocks, lmineBlocks));
        }
      }
    }

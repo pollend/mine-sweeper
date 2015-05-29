@@ -3,10 +3,12 @@
  import com.minesweeper.blocks.BlockExplosiveMine;
 import com.minesweeper.blocks.BlockFloatingNumber;
 
-import net.minecraft.nbt.NBTTagCompound;
+ import net.minecraft.block.state.IBlockState;
+ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
  import net.minecraft.util.BlockPos;
  import net.minecraft.world.World;
+ import scala.Console;
 
 
  public class TileEntityMineFieldCompletionSearch
@@ -14,53 +16,66 @@ import net.minecraft.tileentity.TileEntity;
  {
    public BlockPos[] goodies =new BlockPos[0];
    public BlockPos[] explosives =new BlockPos[0];
+   public BlockPos refrence = new BlockPos(0,0,0);
 
    public  TileEntityMineFieldCompletionSearch()
    {
 
    }
 
- public TileEntityMineFieldCompletionSearch(BlockPos[] goodies, BlockPos[] explosives)
+@Override
+   public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate)
+   {
+     return  false;
+   }
+
+ public TileEntityMineFieldCompletionSearch(BlockPos refrence,BlockPos[] goodies, BlockPos[] explosives)
  {
+   this.refrence = refrence;
    this.goodies = goodies;
    this.explosives = explosives;
  }
 
    public boolean IsMineFieldCompleted(World world)
    {
-     if (this.explosives.length == 0)
-     {
-       return false;
-     }
-     for (int i = 0; i < this.explosives.length; i++)
-     {
-       if (!(world.getBlockState(explosives[i]).getBlock() instanceof BlockExplosiveMine))
-       {
+     if(this.refrence.equals(this.getPos())) {
+       if (this.explosives.length == 0) {
          return false;
        }
-     }
-     for (int i = 0; i < this.goodies.length; i++)
-     {
-       if (!((world.getBlockState(goodies[i])).getBlock() instanceof BlockFloatingNumber))
-       {
+       for (int i = 0; i < this.explosives.length; i++) {
+         if (!(world.getBlockState(explosives[i]).getBlock() instanceof BlockExplosiveMine)) {
            return false;
+         }
        }
+       for (int i = 0; i < this.goodies.length; i++) {
+         if (!((world.getBlockState(goodies[i])).getBlock() instanceof BlockFloatingNumber)) {
+           return false;
+         }
+       }
+     }
+     else
+     {
+       return ((TileEntityMineFieldCompletionSearch)world.getTileEntity(refrence)).IsMineFieldCompleted(this.getWorld());
      }
      return true;
    }
  
    public void ClearField(World world)
    {
-     for (int i = 0; i < this.explosives.length; i++)
-     {
-       world.setBlockToAir(explosives[i]);
+     if(this.refrence.equals(this.getPos())) {
+       for (int i = 0; i < this.explosives.length; i++) {
+         world.setBlockToAir(explosives[i]);
+       }
+
+
+       for (int i = 0; i < this.goodies.length; i++) {
+         world.setBlockToAir(goodies[i]);
+       }
      }
-     
- 
-     for (int i = 0; i < this.goodies.length; i++)
-     {
-       world.setBlockToAir(goodies[i]);
+     else {
+       ((TileEntityMineFieldCompletionSearch)world.getTileEntity(refrence)).ClearField(this.getWorld());
      }
+
    }
 
 
@@ -99,17 +114,30 @@ import net.minecraft.tileentity.TileEntity;
 
    public void writeToNBT(NBTTagCompound par1NBTTagCompound)
    {
-     super.writeToNBT(par1NBTTagCompound);
-     this.writePositionsToNbtTags(par1NBTTagCompound,"goodies",this.goodies);
-     this.writePositionsToNbtTags(par1NBTTagCompound,"explosiveBlocks",this.explosives);
-   }
+       super.writeToNBT(par1NBTTagCompound);
+
+      if(refrence.equals(this.getPos())) {
+
+         this.writePositionsToNbtTags(par1NBTTagCompound, "goodies", this.goodies);
+         this.writePositionsToNbtTags(par1NBTTagCompound, "explosiveBlocks", this.explosives);
+       }
+        par1NBTTagCompound.setInteger("refrence_x",refrence.getX());
+        par1NBTTagCompound.setInteger("refrence_y",refrence.getY());
+        par1NBTTagCompound.setInteger("refrence_z",refrence.getZ());
+
+
+     }
 
  
    public void readFromNBT(NBTTagCompound par1NBTTagCompound)
    {
      super.readFromNBT(par1NBTTagCompound);
-    this.goodies= this.readPositionsFromNbtTags(par1NBTTagCompound,"goodies");
-     this.explosives = this.readPositionsFromNbtTags(par1NBTTagCompound,"explosiveBlocks");
+     this.refrence = new BlockPos(par1NBTTagCompound.getInteger("refrence_x"),par1NBTTagCompound.getInteger("refrence_y"),par1NBTTagCompound.getInteger("refrence_z"));
+     if(refrence.equals(this.getPos())) {
+       this.goodies = this.readPositionsFromNbtTags(par1NBTTagCompound, "goodies");
+       this.explosives = this.readPositionsFromNbtTags(par1NBTTagCompound, "explosiveBlocks");
+     }
+
 
    }
  }
