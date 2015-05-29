@@ -1,6 +1,7 @@
 package com.minesweeper.blocks;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockAir;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
@@ -10,6 +11,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 /**
  * Created by Michael on 5/27/2015.
@@ -47,47 +50,86 @@ public class BaseFieldBlock  extends Block{
         return  0;
     }
 
+    public BlockPos[] getSurroundingBlocks(BlockPos pos)
+    {
+        return  new BlockPos[]{
+                pos.add(-1, -1, -1),
+                pos.add(-1, -1, 0), 
+                pos.add(-1, -1, 1), 
+                pos.add(1, -1, -1),
+                pos.add(1, -1, 0), 
+                pos.add(1, -1, 1), 
+                pos.add(0, -1, -1),
+                pos.add(0, -1, 0), 
+                pos.add(0, -1, 1), 
+                pos.add(-1, 1, -1),
+                pos.add(-1, 1, 0), 
+                pos.add(-1, 1, 1), 
+                pos.add(1, 1, -1),
+                pos.add(1, 1, 0), 
+                pos.add(1, 1, 1), 
+                pos.add(0, 1, -1),
+                pos.add(0, 1, 0), 
+                pos.add(0, 1, 1), 
+                pos.add(-1, 0, -1),
+                pos.add(-1, 0, 0), 
+                pos.add(-1, 0, 1), 
+                pos.add(1, 0, -1),
+                pos.add(1, 0, 0), 
+                pos.add(1, 0, 1), 
+                pos.add(0, 0, -1),
+                pos.add(0, 0, 1)
+        };
+    }
+
+
+    public  boolean hasMineNeighbor(BlockPos pos,World world)
+    {
+        BlockPos[] lsurroundingBlocks = getSurroundingBlocks(pos);
+        for(int i =0; i< lsurroundingBlocks.length; i++)
+        {
+            if(world.getBlockState(lsurroundingBlocks[i]).getBlock() instanceof BlockExplosiveMine )
+            {
+            return  true;}
+        }
+        return  false;
+    }
+
+    @Override
+    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+        worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));;
+    }
+
+    @Override
+    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+        BlockPos[] lsurroundingBlocks = getSurroundingBlocks(pos);
+        for (int i = 0; i < lsurroundingBlocks.length; i++) {
+            if (worldIn.getBlockState(lsurroundingBlocks[i]).getBlock() instanceof  BlockAir) {
+                if(this.numberOfNeighbors(lsurroundingBlocks[i],worldIn) > 0) {
+                    worldIn.setBlockState(lsurroundingBlocks[i], MineSweeperBlocks.blockFloatingNumber.getDefaultState(), 2);
+                    worldIn.getTileEntity(lsurroundingBlocks[i]).invalidate();
+                }
+            }
+        }
+    }
+
+
+    public int numberOfNeighbors(BlockPos pos, World world)
+    {
+        int lmineCount =0;
+        BlockPos[] lsurroundingBlocks = getSurroundingBlocks(pos);
+        for(int i =0; i< lsurroundingBlocks.length; i++)
+        {
+            lmineCount += world.getBlockState(lsurroundingBlocks[i]).getBlock() instanceof BlockExplosiveMine ? 1 : 0;
+        }
+        return  lmineCount;
+    }
 
 
     @Override
     public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
         int MineCount = getStartingCount();
-        MineCount += IsMineBlock(pos.add(-1, -1, -1), world);
-        MineCount += IsMineBlock(pos.add(-1, -1, 0), world);
-        MineCount += IsMineBlock(pos.add(-1, -1, 1), world);
-
-        MineCount += IsMineBlock(pos.add(1, -1, -1), world);
-        MineCount += IsMineBlock(pos.add(1, -1, 0), world);
-        MineCount += IsMineBlock(pos.add(1, -1, 1), world);
-
-        MineCount += IsMineBlock(pos.add(0, -1, -1), world);
-        MineCount += IsMineBlock(pos.add(0, -1, 0), world);
-        MineCount += IsMineBlock(pos.add(0, -1, 1), world);
-
-
-        MineCount += IsMineBlock(pos.add(-1, 1, -1), world);
-        MineCount += IsMineBlock(pos.add(-1, 1, 0), world);
-        MineCount += IsMineBlock(pos.add(-1, 1, 1), world);
-
-        MineCount += IsMineBlock(pos.add(1, 1, -1), world);
-        MineCount += IsMineBlock(pos.add(1, 1, 0), world);
-        MineCount += IsMineBlock(pos.add(1, 1, 1), world);
-
-        MineCount += IsMineBlock(pos.add(0, 1, -1), world);
-        MineCount += IsMineBlock(pos.add(0, 1, 0), world);
-        MineCount += IsMineBlock(pos.add(0, 1, 1), world);
-
-
-        MineCount += IsMineBlock(pos.add(-1, 0, -1), world);
-        MineCount += IsMineBlock(pos.add(-1, 0, 0), world);
-        MineCount += IsMineBlock(pos.add(-1, 0, 1), world);
-
-        MineCount += IsMineBlock(pos.add(1, 0, -1), world);
-        MineCount += IsMineBlock(pos.add(1, 0, 0), world);
-        MineCount += IsMineBlock(pos.add(1, 0, 1), world);
-
-        MineCount += IsMineBlock(pos.add(0, 0, -1), world);
-        MineCount += IsMineBlock(pos.add(0, 0, 1), world);
+        MineCount += numberOfNeighbors(pos,world);
 
 
         if (MineCount > 14) {
@@ -101,11 +143,6 @@ public class BaseFieldBlock  extends Block{
             super.onBlockAdded(world, pos, state);
     }
 
-    protected int IsMineBlock(BlockPos pos, World world)
-    {
-
-        return world.getBlockState(pos).getBlock() instanceof BlockExplosiveMine ? 1 : 0;
-    }
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)

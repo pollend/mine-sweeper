@@ -23,7 +23,8 @@ import com.minesweeper.tileEntities.TileEntityFloatingNumber;
         public BlockFloatingNumber()
         {
               super(Material.air);
-          //  this.setUnlocalizedName(MineSweeper.MODID+"_"+name);
+            this.setUnlocalizedName(MineSweeper.MODID+"_"+name);
+
             GameRegistry.registerBlock(this, name);
         }
      @Override

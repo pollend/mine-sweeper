@@ -12,7 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 
 
  public class TileEntityMineFieldCompletionSearch
-   extends TileEntity
+   extends BaseTileFieldEntity
  {
    public BlockPos[] goodies =new BlockPos[0];
    public BlockPos[] explosives =new BlockPos[0];

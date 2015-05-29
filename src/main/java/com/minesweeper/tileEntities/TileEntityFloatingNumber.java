@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 
  public class TileEntityFloatingNumber
-   extends TileEntity implements IUpdatePlayerListBox
+   extends BaseTileFieldEntity implements IUpdatePlayerListBox
  {
    public float riseFall = 0.0F;
    private float circle = 0.0F;
@@ -22,6 +22,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
      this.circle = ((float)(Math.random() * 3.14D * 2.0D));
 
    }
+
+   @SideOnly(Side.CLIENT)
+   @Override
+   public double getMaxRenderDistanceSquared()
+   {
+     return 100.0D;
+   }
+
 
    @Override
    public void update() {

@@ -1,6 +1,7 @@
 package com.minesweeper.blocks;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -39,8 +40,6 @@ public class BlockGoodies  extends BaseFieldBlock  implements ITileEntityProvide
         this.setStepSound(soundTypePiston);
 
         this.setUnlocalizedName(MineSweeper.MODID+"_"+name);
-
-        this.setCreativeTab(CreativeTabs.tabBlock);
 
         GameRegistry.registerBlock(this, name);
     }
@@ -216,16 +215,7 @@ public class BlockGoodies  extends BaseFieldBlock  implements ITileEntityProvide
     	//world.setBlock(x, y, z, MineSweeperBlocks.blockFloatingNumber, meta, 2);
         
     }
-/*
-    @Override
-    public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
-        if(world.setBlockState(pos, MineSweeperBlocks.blockFloatingNumber.getDefaultState(), 2))
-        {
-            world.getBlockState(pos).withProperty(BaseFieldBlock.STATES,state.getValue(BaseFieldBlock.STATES));
-        }
 
-    }
-*/
     @Override
     public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
         TileEntityMineFieldCompletionSearch compleitionSearch =((TileEntityMineFieldCompletionSearch) worldIn.getTileEntity(pos));
@@ -276,23 +266,8 @@ public class BlockGoodies  extends BaseFieldBlock  implements ITileEntityProvide
     }*/
 
 
-/*
-    public boolean a(World par1World, int par2, int par3, int par4, qx, par5EntityPlayer, int par6, float par7, float par8, float par9) {
-        if(par5EntityPlayer.bI.g().b() == uk.D) {
-            if (par1World.h(par2, par3, par4) == 15) {
-                g(par1World, par2, par3,par4);
-            } else par1World.d(par2, par3, par4, 15);
-        }
-        return this.cp;
-    }
-*/
 
-	/*
-	 * public int a(Random par1Random) { return 0; }
-	 */
-	/*
-	 * public int a(int par1, int par2) { return par2 - 1; }
-	 */
+
 }
 
 /*

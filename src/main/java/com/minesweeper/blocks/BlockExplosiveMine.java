@@ -2,12 +2,14 @@
 
  import com.minesweeper.tileEntities.TileEntityMineFieldCompletionSearch;
  import net.minecraft.block.Block;
+ import net.minecraft.block.BlockAir;
  import net.minecraft.block.ITileEntityProvider;
  import net.minecraft.block.material.Material;
  import net.minecraft.block.properties.PropertyInteger;
  import net.minecraft.block.state.IBlockState;
  import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+ import net.minecraft.init.Blocks;
  import net.minecraft.tileentity.TileEntity;
  import net.minecraft.util.BlockPos;
  import net.minecraft.util.EnumFacing;
@@ -36,7 +38,9 @@ import com.minesweeper.MineSweeper;
        this.setResistance(10.0F);
        this.setStepSound(soundTypePiston);
        GameRegistry.registerBlock(this, name);
+
    }
+
 /*
    @Override
    public void registerBlockIcons(IIconRegister icon)
