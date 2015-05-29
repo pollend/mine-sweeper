@@ -238,7 +238,7 @@ public class BlockGoodies  extends BaseFieldBlock  implements ITileEntityProvide
     @Override
     public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, IBlockState state) {
         worldIn.setBlockState(pos, MineSweeperBlocks.blockFloatingNumber.getDefaultState(), 2);
-
+        worldIn.getTileEntity(pos).invalidate();
     }
 
 
