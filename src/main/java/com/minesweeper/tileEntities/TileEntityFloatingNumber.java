@@ -1,6 +1,9 @@
  package com.minesweeper.tileEntities;
  
 
+import com.minesweeper.blocks.BaseFieldBlock;
+import jdk.nashorn.internal.ir.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -21,6 +24,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
    public TileEntityFloatingNumber() {
      this.circle = ((float)(Math.random() * 3.14D * 2.0D));
 
+   }
+
+   public  int getNeighbors()
+   {
+     IBlockState state=   this.worldObj.getBlockState(this.getPos());
+     if(state.getBlock() instanceof  BaseFieldBlock)
+       return  ((Integer)state.getValue(BaseFieldBlock.NEIGHBORS)).intValue();
+   return  0;
    }
 
    @SideOnly(Side.CLIENT)

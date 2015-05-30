@@ -1,17 +1,22 @@
 package com.minesweeper.blocks;
 
+import com.minesweeper.tileEntities.BaseTileFieldEntity;
+import com.minesweeper.tileEntities.TileEntityMineFieldCompletionSearch;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import java.io.Console;
 import java.util.Random;
 
 /**
@@ -19,31 +24,36 @@ import java.util.Random;
  */
 public class BaseFieldBlock  extends Block{
 
-    public static final PropertyInteger STATES = PropertyInteger.create("states", 0, 15);
+    public static final PropertyInteger NEIGHBORS = PropertyInteger.create("neighbors", 0, 26);
 
     protected BaseFieldBlock(Material materialIn) {
 
         super(materialIn);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(STATES,Integer.valueOf(0)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(NEIGHBORS,Integer.valueOf(1)));
     }
     @Override
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {STATES});
+        return new BlockState(this, new IProperty[] {NEIGHBORS});
     }
 
     @Override
     public IBlockState getStateFromMeta(int meta)
     {
-        return getDefaultState().withProperty(STATES, Integer.valueOf(meta));
+        return getDefaultState().withProperty(NEIGHBORS,Integer.valueOf(meta));
     }
 
     @Override
     public int getMetaFromState(IBlockState state)
     {
-        return ((Integer)state.getValue(STATES)).intValue();
+        return ((Integer)state.getValue(NEIGHBORS)).intValue();
     }
 
+
+    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
+    {
+        return  state;
+    }
 
     public  int getStartingCount()
     {
@@ -95,6 +105,8 @@ public class BaseFieldBlock  extends Block{
         return  false;
     }
 
+
+
     @Override
     public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
         worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));;
@@ -116,7 +128,13 @@ public class BaseFieldBlock  extends Block{
 
     public int numberOfNeighbors(BlockPos pos, World world)
     {
-        int lmineCount =0;
+        return  numberOfNeighbors(pos,(IBlockAccess)world);
+    }
+
+
+    public int numberOfNeighbors(BlockPos pos, IBlockAccess world)
+    {
+        int lmineCount =this.getStartingCount();
         BlockPos[] lsurroundingBlocks = getSurroundingBlocks(pos);
         for(int i =0; i< lsurroundingBlocks.length; i++)
         {
@@ -132,14 +150,16 @@ public class BaseFieldBlock  extends Block{
         MineCount += numberOfNeighbors(pos,world);
 
 
-        if (MineCount > 14) {
+     /*   if (MineCount > 14) {
             MineCount = 14;
         }
         if(MineCount < 0)
             world.setBlockToAir(pos);
-        else {
-            world.setBlockState(pos, state.withProperty(STATES, Integer.valueOf(MineCount)), 2);
-        }
+        else {*/
+            world.setBlockState(pos, state.withProperty(NEIGHBORS, Integer.valueOf(MineCount)), 2);
+       // ((BaseTileFieldEntity)world.getTileEntity(pos)).neighbors = MineCount;
+
+        //}
             super.onBlockAdded(world, pos, state);
     }
 
@@ -147,12 +167,12 @@ public class BaseFieldBlock  extends Block{
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
     {
-        int marked = ((Integer)world.getBlockState(pos).getValue(STATES)).intValue();
-        if (marked == 15) {
-            this.onBlockAdded(world,pos,state);
-        } else {
-            world.setBlockState(pos,state.withProperty(STATES,Integer.valueOf(15)));
+        int marked = ((Integer)world.getBlockState(pos).getValue(NEIGHBORS)).intValue();
+        if(marked > 0) {
+            world.setBlockState(pos, state.withProperty(NEIGHBORS, Integer.valueOf(0)));
         }
+        else
+        this.onBlockAdded(world,pos,state);
 
         return super.onBlockActivated(world, pos,state,playerIn,side,hitX,hitY,hitZ);
     }

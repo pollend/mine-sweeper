@@ -1,51 +1,85 @@
 {
     "variants": {
-        "states=0": {
+
+        "neighbors=1": {
             "model": "minesweeper:stone-01"
         },
-        "states=1": {
+        "neighbors=2": {
             "model": "minesweeper:stone-02"
         },
-        "states=2": {
+        "neighbors=3": {
             "model": "minesweeper:stone-03"
         },
-        "states=3": {
+        "neighbors=4": {
             "model": "minesweeper:stone-04"
         },
-        "states=4": {
+        "neighbors=5": {
             "model": "minesweeper:stone-05"
         },
-        "states=5": {
+        "neighbors=6": {
             "model": "minesweeper:stone-06"
         },
-        "states=6": {
+        "neighbors=7": {
             "model": "minesweeper:stone-07"
         },
-        "states=7": {
+        "neighbors=8": {
             "model": "minesweeper:stone-08"
         },
-        "states=8": {
+        "neighbors=9": {
             "model": "minesweeper:stone-09"
         },
-        "states=9": {
+        "neighbors=10": {
             "model": "minesweeper:stone-10"
         },
-        "states=10": {
+        "neighbors=11": {
             "model": "minesweeper:stone-11"
         },
-        "states=11": {
+        "neighbors=12": {
             "model": "minesweeper:stone-12"
         },
-        "states=12": {
+        "neighbors=13": {
             "model": "minesweeper:stone-13"
         },
-        "states=13": {
+        "neighbors=14": {
             "model": "minesweeper:stone-14"
         },
-        "states=14": {
+        "neighbors=15": {
             "model": "minesweeper:stone-15"
         },
-        "states=15": {
+        "neighbors=16": {
+            "model": "minesweeper:stone-15"
+        },
+        "neighbors=17": {
+            "model": "minesweeper:stone-15"
+        },
+        "neighbors=18": {
+            "model": "minesweeper:stone-15"
+        },
+        "neighbors=19": {
+            "model": "minesweeper:stone-15"
+        },
+        "neighbors=20": {
+            "model": "minesweeper:stone-15"
+        },
+        "neighbors=21": {
+            "model": "minesweeper:stone-15"
+        },
+        "neighbors=22": {
+            "model": "minesweeper:stone-15"
+        },
+        "neighbors=23": {
+            "model": "minesweeper:stone-15"
+        },
+        "neighbors=24": {
+            "model": "minesweeper:stone-15"
+        },
+        "neighbors=25": {
+            "model": "minesweeper:stone-15"
+        },
+        "neighbors=26": {
+            "model": "minesweeper:stone-15"
+        },
+        "neighbors=0": {
             "model": "minesweeper:marked"
         }
     }

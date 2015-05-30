@@ -28,7 +28,7 @@ public class BlockGoodies  extends BaseFieldBlock  implements ITileEntityProvide
     @Override
     public  int getStartingCount()
     {
-        return  -1;
+        return  0;
     }
 
 

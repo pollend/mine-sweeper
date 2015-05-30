@@ -41,6 +41,11 @@ import com.minesweeper.MineSweeper;
 
    }
 
+@Override
+     public  int getStartingCount()
+     {
+         return  1;
+     }
 /*
    @Override
    public void registerBlockIcons(IIconRegister icon)
