@@ -27,9 +27,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class BlockGoodies  extends BaseFieldBlock  implements ITileEntityProvider {
 
-
-    Random rand = new Random();
-
     public final static String name = "goodies";
 
     @Override
@@ -51,130 +48,6 @@ public class BlockGoodies  extends BaseFieldBlock  implements ITileEntityProvide
         GameRegistry.registerBlock(this, name);
     }
 
-
-/*
-    public void c(World world, int x, int y, int z, int meta) {
-        if (!par1World.J) {
-            int metaData = par1World.h(par2, par3, par4) + 1;
-            switch (metaData) {
-                case 1:
-                    ChanceToSpawnGoods(par1World, par2, par3,
-                            par4, uk.n, 0.01F, 1.0F, this.rand);
-
-                    ChanceToSpawnGoods(par1World, par2, par3, par4, amj.K, 1.0F, 0.5F,
-                            this.rand);
-                    break;
-                case 2:
-                    ChanceToSpawnGoods(par1World, par2, par3,
-                            par4, uk.n, 0.05F, 0.02F, this.rand);
-
-                    ChanceToSpawnGoods(par1World, par2, par3, par4, amj.K, 1.0F, 0.3F,
-                            this.rand);
-                    break;
-                case 3:
-                    ChanceToSpawnGoods(par1World, par2, par3,
-                            par4, uk.n, 0.1F, 0.05F, this.rand);
-
-                    ChanceToSpawnGoods(par1World, par2, par3, par4, amj.K, 1.0F, 0.2F,
-                            this.rand);
-                    break;
-                case 4:
-                    ChanceToSpawnGoods(par1World, par2, par3,
-                            par4, uk.n, 0.15F, 0.05F, this.rand);
-
-                    ChanceToSpawnGoods(par1World, par2, par3, par4, amj.K, 1.0F, 0.1F,
-                            this.rand);
-                    break;
-                case 5:
-                    ChanceToSpawnGoods(par1World, par2, par3,
-                            par4, uk.n, 0.2F, 0.05F, this.rand);
-
-                    ChanceToSpawnGoods(par1World, par2, par3, par4, amj.K, 1.1F, 0.1F,
-                            this.rand);
-                    break;
-                case 6:
-                    ChanceToSpawnGoods(par1World, par2, par3,
-                            par4, uk.n, 0.4F, 0.1F, this.rand);
-
-                    ChanceToSpawnGoods(par1World, par2, par3, par4, amj.K, 1.4F, 0.1F,
-                            this.rand);
-                    break;
-                case 7:
-                    ChanceToSpawnGoods(par1World, par2, par3,
-                            par4, uk.n, 0.4F, 0.05F, this.rand);
-
-                    ChanceToSpawnGoods(par1World, par2, par3, par4, amj.K, 1.8F, 0.1F,
-                            this.rand);
-                    break;
-                case 8:
-                    ChanceToSpawnGoods(par1World, par2, par3,
-                            par4, uk.n, 0.5F, 0.02F, this.rand);
-
-                    ChanceToSpawnGoods(par1World, par2, par3, par4, amj.K, 2.0F, 0.1F,
-                            this.rand);
-                    break;
-                case 9:
-                    ChanceToSpawnGoods(par1World, par2, par3,
-                            par4, uk.n, 0.6F, 0.02F, this.rand);
-
-                    ChanceToSpawnGoods(par1World, par2, par3, par4, amj.K, 2.4F, 0.1F,
-                            this.rand);
-
-                    break;
-                case 10:
-                    ChanceToSpawnGoods(par1World, par2, par3, par4, uk.n,
-                            0.8F, 0.01F, this.rand);
-
-
-                    ChanceToSpawnGoods(par1World, par2, par3, par4, amj.K, 2.7F, 0.1F,
-                            this.rand);
-                    break;
-                case 11:
-                    ChanceToSpawnGoods(par1World, par2, par3,
-                            par4, uk.n, 0.9F, 0.01F, this.rand);
-
-
-                    ChanceToSpawnGoods(par1World, par2, par3, par4, amj.K, 1.9F, 0.1F,
-                            this.rand);
-                    break;
-                case 12:
-                    ChanceToSpawnGoods(par1World, par2, par3,
-                            par4, uk.n, 1.0F, 0.01F, this.rand);
-
-
-                    ChanceToSpawnGoods(par1World, par2, par3, par4, amj.K, 2.0F, 0.1F,
-                            this.rand);
-                    break;
-                case 13:
-                    ChanceToSpawnGoods(par1World, par2, par3,
-                            par4, uk.n, 1.4F, 0.01F, this.rand);
-
-
-                    ChanceToSpawnGoods(par1World, par2, par3, par4, amj.K, 3.0F, 0.1F,
-                            this.rand);
-                    break;
-                case 14:
-                    ChanceToSpawnGoods(par1World, par2, par3,
-                            par4, uk.n, 2.0F, 0.01F, this.rand);
-
-
-                    ChanceToSpawnGoods(par1World, par2, par3, par4, amj.K, 4.0F, 0.1F,
-                            this.rand);
-            }
-
-
-            px var14 = new px(par1World, par2, par3, par4, new um(1, 1, 1));
-
-            var14.w = ((float) this.rand.nextGaussian() * 0.2F);
-            var14.x =
-                    ((float) this.rand.nextGaussian() * 0.2F + 0.2F);
-            var14.y =
-                    ((float) this.rand.nextGaussian() * 0.2F);
-                    }
-    	world.setBlock(x, y, z, MineSweeperBlocks.blockFloatingNumber, meta, 2);
-        
-    }
-*/
     @Override
     public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
         TileEntityMineFieldCompletionSearch compleitionSearch =((TileEntityMineFieldCompletionSearch) worldIn.getTileEntity(pos));
@@ -212,36 +85,6 @@ public class BlockGoodies  extends BaseFieldBlock  implements ITileEntityProvide
     public TileEntity createNewTileEntity(World worldIn, int meta) {
         return new TileEntityMineFieldCompletionSearch();
     }
-
-
-/*
-    private void ChanceToSpawnGoods(World world, int x, int y, int z, amj b,
-                                    float chance, float chanceDecrease, Random rand) {
-        while (chance > 0.0F) {
-            if (rand.nextFloat() > chance) {
-                break;
-            }
-            world.d(new px(world, x, y,
-                    z, new um(b.cm, 1, 1)));
-            chance -= chanceDecrease;
-        }
-    }
-
-
-    private void ChanceToSpawnGoods(World world, int x, int y, int z, uk
-            item, float chance, float chanceDecrease, Random rand) {
-        while (chance >
-                0.0F) {
-            if (rand.nextFloat() > chance) {
-                break;
-            }
-
-            //world.d(new px(world, x, y, z, new um(item, 1, 1))); chance -=
-            chanceDecrease;
-        }
-    }*/
-
-
 
 
 }

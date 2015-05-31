@@ -9,6 +9,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
@@ -17,16 +18,24 @@ import java.util.ArrayList;
 
 
 public class TileEntityMineFieldCompletionSearch
-        extends BaseTileFieldEntity {
+        extends TileEntity {
+
 
     protected BlockPos[] goodies = new BlockPos[0];
     protected BlockPos[] explosives = new BlockPos[0];
+
+    //reference tile entities to prevent storing too much data
     private BlockPos reference = new BlockPos(0, 0, 0);
 
     public TileEntityMineFieldCompletionSearch() {
 
     }
 
+    /**
+     * returns all the explosives in this particular minefield
+     * @param world
+     * @return
+     */
     public BlockPos[] getExplosives(World world) {
         if (this.reference.equals(this.getPos())) {
             return this.explosives;
@@ -40,6 +49,11 @@ public class TileEntityMineFieldCompletionSearch
 
     }
 
+    /**
+     * returns all the good blocks within this field
+     * @param world
+     * @return
+     */
     public BlockPos[] getGoodies(World world) {
         if (this.reference.equals(this.getPos())) {
             return this.goodies;
@@ -51,7 +65,14 @@ public class TileEntityMineFieldCompletionSearch
 
     }
 
-
+    /**
+     * prevent blocks from clearing tileEntities
+     * @param world
+     * @param pos
+     * @param oldState
+     * @param newSate
+     * @return
+     */
     @Override
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
         return false;
@@ -63,6 +84,11 @@ public class TileEntityMineFieldCompletionSearch
         this.explosives = explosives;
     }
 
+    /**
+     * test if the minefield has been completed
+     * @param world
+     * @return
+     */
     public boolean isMineFieldCompleted(World world) {
         if (this.reference.equals(this.getPos())) {
             if (this.explosives.length == 0) {
@@ -86,6 +112,10 @@ public class TileEntityMineFieldCompletionSearch
         return true;
     }
 
+    /**
+     * loops through all the blocks and clears the field
+     * @param world
+     */
     public void clearField(World world) {
         if (this.reference.equals(this.getPos())) {
             for (int i = 0; i < this.explosives.length; i++) {
@@ -140,6 +170,7 @@ public class TileEntityMineFieldCompletionSearch
             this.writePositionsToNbtTags(par1NBTTagCompound, "goodies", this.goodies);
             this.writePositionsToNbtTags(par1NBTTagCompound, "explosiveBlocks", this.explosives);
         }
+
         par1NBTTagCompound.setInteger("refrence_x", reference.getX());
         par1NBTTagCompound.setInteger("refrence_y", reference.getY());
         par1NBTTagCompound.setInteger("refrence_z", reference.getZ());

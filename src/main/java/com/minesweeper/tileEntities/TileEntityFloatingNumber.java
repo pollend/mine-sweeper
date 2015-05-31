@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 
  public class TileEntityFloatingNumber
-   extends BaseTileFieldEntity implements IUpdatePlayerListBox
+   extends TileEntity implements IUpdatePlayerListBox
  {
    public float riseFall = 0.0F;
    private float circle = 0.0F;
@@ -25,25 +25,25 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
    @SideOnly(Side.CLIENT)
    @Override
+   /**
+    * hides the numbers for performance and usability
+    */
    public double getMaxRenderDistanceSquared()
    {
      return 100.0D;
    }
 
-
+   /**
+    * used to make the float up and down
+    */
    @Override
    public void update() {
-     this.circle = ((float)(this.circle + 0.1D));
-     this.riseFall = ((float)Math.sin(this.circle) * 0.09F);
-     if (this.circle > 6.28D)
-     {
-       this.circle = 0.0F;
+     if(!this.getWorld().isRemote) {
+       this.circle = ((float) (this.circle + 0.1D));
+       this.riseFall = ((float) Math.sin(this.circle) * 0.09F);
+       if (this.circle > 6.28D) {
+         this.circle = 0.0F;
+       }
      }
    }
  }
-
-
-/* Location:              C:\Users\Michael\Desktop\oldComputer\MinecraftMods\MineSweeper\!\MineSweeper\TileEntityDisembodiedNumber.class
- * Java compiler version: 6 (50.0)
- * JD-Core Version:       0.7.1
- */
