@@ -237,6 +237,17 @@ public class BaseFieldBlock  extends Block{
             world.setBlockState(pos,state.withProperty(STATES,Integer.valueOf(15)));
         }
 
+        BlockPos[] lsurroundingBlocks = getSurroundingBlocks(pos);
+        for(int i =0; i< lsurroundingBlocks.length; i++)
+        {
+            if(world.getBlockState(lsurroundingBlocks[i]).getBlock() instanceof  BlockFloatingNumber)
+            {
+                IBlockState floatingNumber =    world.getBlockState(lsurroundingBlocks[i]);
+                ((BlockFloatingNumber)floatingNumber.getBlock()).updateFloatingNumber(world,lsurroundingBlocks[i],floatingNumber);
+               // ((BlockFloatingNumber) world.getBlockState(lsurroundingBlocks[i])).updateFloatingNumber(world, lsurroundingBlocks[i], );
+            }
+        }
+
         return super.onBlockActivated(world, pos,state,playerIn,side,hitX,hitY,hitZ);
     }
 

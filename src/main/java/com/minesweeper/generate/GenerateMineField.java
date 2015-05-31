@@ -31,51 +31,69 @@ import net.minecraftforge.fml.common.IWorldGenerator;
    List<BlockPos> goodieBlock = new ArrayList<BlockPos>();
    List<BlockPos> mineBlock = new ArrayList<BlockPos>();
 
+   private  void  generateField(World world,int size,int spread,Random random,BlockPos location)
+   {
+     this.goodieBlock = new ArrayList<BlockPos>();
+     this.mineBlock = new ArrayList<BlockPos>();
+
+     for (int i = size; i > 0; i--) {
+       AddMine(location.add(random.nextInt(spread) - 5,  random.nextInt(spread) - 5, random.nextInt(spread) - 5), world);
+     }
+
+     for(int i =0; i < goodieBlock.size(); i++)
+     {
+       if(!(world.getBlockState(goodieBlock.get(i)).getBlock() instanceof  BlockGoodies))
+       {
+         goodieBlock.remove(i);
+         i--;
+       }
+
+     }
+
+     for(int i =0; i < mineBlock.size(); i++)
+     {
+       if(!(world.getBlockState(mineBlock.get(i)).getBlock() instanceof  BlockExplosiveMine))
+       {
+         mineBlock.remove(i);
+         i--;
+       }
+
+     }
+
+     BlockPos[] lgoodieBlocks = this.goodieBlock.toArray(new BlockPos[0]);
+     BlockPos[] lmineBlocks = this.mineBlock.toArray(new BlockPos[0]);
+     for (int i = 0; i < lgoodieBlocks.length; i++)
+     {
+       world.setTileEntity(lgoodieBlocks[i], new TileEntityMineFieldCompletionSearch(lmineBlocks[0],lgoodieBlocks, lmineBlocks));
+     }
+     for (int i = 0; i < lmineBlocks.length; i++)
+     {
+       world.setTileEntity(lmineBlocks[i], new TileEntityMineFieldCompletionSearch(lmineBlocks[0],lgoodieBlocks, lmineBlocks));
+     }
+   }
+
 
    @Override
    public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-     BlockPos fieldLocation = new BlockPos(chunkX * 16 + random.nextInt(16),random.nextInt(20) +15,chunkZ * 16 + random.nextInt(16));
-     int size = random.nextInt(40) + 40;
-     if (random.nextFloat() * 100.0F > 97.0F)
+     if (random.nextFloat() * 100.0F > 95.0F)
      {
-
-       this.goodieBlock = new ArrayList<BlockPos>();
-       this.mineBlock = new ArrayList<BlockPos>();
-
-       for (int i = size; i > 0; i--) {
-         AddMine(fieldLocation.add(random.nextInt(10) - 5,  random.nextInt(10) - 5, random.nextInt(10) - 5), world);
+       if (random.nextFloat() * 100.0F <30.0F) {
+         BlockPos fieldLocation = new BlockPos(chunkX * 16 + random.nextInt(16), random.nextInt(20) + 15, chunkZ * 16 + random.nextInt(16));
+         int size = random.nextInt(10) + 20;
+         generateField(world, size,10, random, fieldLocation);
        }
-
-       for(int i =0; i < goodieBlock.size(); i++)
+       else if(random.nextFloat() * 100.0F <70.0F) {
+         BlockPos fieldLocation = new BlockPos(chunkX * 16 + random.nextInt(16), random.nextInt(20) + 15, chunkZ * 16 + random.nextInt(16));
+         int size = random.nextInt(10) + 30;
+         generateField(world, size,10, random, fieldLocation);
+       }
+       else
        {
-         if(!(world.getBlockState(goodieBlock.get(i)).getBlock() instanceof  BlockGoodies))
-         {
-           goodieBlock.remove(i);
-           i--;
-         }
-
+         BlockPos fieldLocation = new BlockPos(chunkX * 16 + random.nextInt(16), random.nextInt(20) + 15, chunkZ * 16 + random.nextInt(16));
+         int size = random.nextInt(10) + 50;
+         generateField(world, size,10, random, fieldLocation);
        }
 
-       for(int i =0; i < mineBlock.size(); i++)
-       {
-         if(!(world.getBlockState(mineBlock.get(i)).getBlock() instanceof  BlockExplosiveMine))
-         {
-           mineBlock.remove(i);
-           i--;
-         }
-
-       }
-
-       BlockPos[] lgoodieBlocks = this.goodieBlock.toArray(new BlockPos[0]);
-       BlockPos[] lmineBlocks = this.mineBlock.toArray(new BlockPos[0]);
-       for (int i = 0; i < lgoodieBlocks.length; i++)
-       {
-         world.setTileEntity(lgoodieBlocks[i], new TileEntityMineFieldCompletionSearch(lmineBlocks[0],lgoodieBlocks, lmineBlocks));
-       }
-       for (int i = 0; i < lmineBlocks.length; i++)
-       {
-         world.setTileEntity(lmineBlocks[i], new TileEntityMineFieldCompletionSearch(lmineBlocks[0],lgoodieBlocks, lmineBlocks));
-       }
      }
    }
 

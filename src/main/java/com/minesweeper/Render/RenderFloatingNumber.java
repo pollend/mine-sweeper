@@ -30,6 +30,7 @@ import com.minesweeper.tileEntities.TileEntityFloatingNumber;
         GlStateManager.rotate(-this.rendererDispatcher.entityYaw, 0.0F, 1.0F, 0.0F);
 
         FontRenderer fontrenderer = this.getFontRenderer();
+         if(tileEntityFloatingNumber.getBlockMetadata() != 0)
         fontrenderer.drawString(""+tileEntityFloatingNumber.getBlockMetadata(), 0, 0, 0);
         GlStateManager.popMatrix();
      }
