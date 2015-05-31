@@ -1,27 +1,16 @@
  package com.minesweeper.blocks;
 
  import com.minesweeper.tileEntities.TileEntityMineFieldCompletionSearch;
- import net.minecraft.block.Block;
- import net.minecraft.block.BlockAir;
  import net.minecraft.block.ITileEntityProvider;
  import net.minecraft.block.material.Material;
- import net.minecraft.block.properties.PropertyInteger;
- import net.minecraft.block.state.IBlockState;
- import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
- import net.minecraft.init.Blocks;
+ import net.minecraft.entity.player.EntityPlayer;
  import net.minecraft.tileentity.TileEntity;
  import net.minecraft.util.BlockPos;
- import net.minecraft.util.EnumFacing;
+ import net.minecraft.world.Explosion;
  import net.minecraft.world.World;
  import net.minecraftforge.fml.common.registry.GameRegistry;
- import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.Random;
-
-import com.minesweeper.MineSweeper;
- import scala.Int;
+ import com.minesweeper.MineSweeper;
 
 
  public class BlockExplosiveMine
@@ -137,13 +126,28 @@ import com.minesweeper.MineSweeper;
        world.a((lq)null, x, y, z, 7.0F, true);
      }
    }*/
- @Override
- public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
-     TileEntityMineFieldCompletionSearch compleitionSearch =((TileEntityMineFieldCompletionSearch) worldIn.getTileEntity(pos));
-     compleitionSearch.ClearField(worldIn);
 
 
- }
+     @Override
+     public boolean removedByPlayer(World worldIn, BlockPos pos, EntityPlayer player, boolean willHarvest)
+     {
+         onBlockExploded(worldIn,pos,null);
+         return  true;
+     }
+
+     @Override
+     public void onBlockExploded(World worldIn, BlockPos pos, Explosion explosion)
+     {
+         TileEntityMineFieldCompletionSearch compleitionSearch =((TileEntityMineFieldCompletionSearch) worldIn.getTileEntity(pos));
+         BlockPos[] mines = compleitionSearch.getExplosives(worldIn);
+         if(mines != null) {
+             compleitionSearch.clearField(worldIn);
+             for (int i = 0; i < ((int) (mines.length / 4.0f)); i++) {
+                 worldIn.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 4.0f, true);
+             }
+         }
+     }
+
 
 
      @Override

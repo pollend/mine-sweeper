@@ -1,6 +1,7 @@
  package com.minesweeper;
 
 
+import com.minesweeper.Networking.PacketDispatcher;
 import com.minesweeper.Render.RenderFloatingNumber;
 import com.minesweeper.blocks.MineSweeperBlocks;
 import com.minesweeper.generate.GenerateMineField;
@@ -43,12 +44,14 @@ import net.minecraftforge.fml.relauncher.Side;
 
 	   GameRegistry.registerWorldGenerator(new GenerateMineField(),5);
 
+       PacketDispatcher.registerPackets();
+
        //register renders
        if(event.getSide() == Side.CLIENT)
        {
-
            ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFloatingNumber.class,new RenderFloatingNumber());
        }
+
 
 
    }

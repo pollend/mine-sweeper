@@ -10,6 +10,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -29,7 +30,7 @@ public class BaseFieldBlock  extends Block{
     @Override
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {STATES});
+        return new BlockState(this, STATES);
     }
 
     @Override
@@ -42,6 +43,17 @@ public class BaseFieldBlock  extends Block{
     public int getMetaFromState(IBlockState state)
     {
         return ((Integer)state.getValue(STATES)).intValue();
+    }
+
+    @Override
+    public boolean canDropFromExplosion(Explosion explosionIn)
+    {
+        return false;
+    }
+    @Override
+    public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
+    {
+
     }
 
 
@@ -97,7 +109,7 @@ public class BaseFieldBlock  extends Block{
 
     @Override
     public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
-        worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));;
+        worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
     }
 
     @Override

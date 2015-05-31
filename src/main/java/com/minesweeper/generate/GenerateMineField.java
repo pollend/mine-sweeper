@@ -62,8 +62,8 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 
        }
 
-       BlockPos[] lgoodieBlocks = (BlockPos[])this.goodieBlock.toArray(new BlockPos[0]);
-       BlockPos[] lmineBlocks = (BlockPos[])this.mineBlock.toArray(new BlockPos[0]);
+       BlockPos[] lgoodieBlocks = this.goodieBlock.toArray(new BlockPos[0]);
+       BlockPos[] lmineBlocks = this.mineBlock.toArray(new BlockPos[0]);
        for (int i = 0; i < lgoodieBlocks.length; i++)
        {
          world.setTileEntity(lgoodieBlocks[i], new TileEntityMineFieldCompletionSearch(lmineBlocks[0],lgoodieBlocks, lmineBlocks));

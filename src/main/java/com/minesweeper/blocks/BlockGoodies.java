@@ -1,21 +1,28 @@
 package com.minesweeper.blocks;
 
+import com.minesweeper.Networking.FieldClearedOnSuccess;
+import com.minesweeper.Networking.PacketDispatcher;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockAir;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.particle.EntityParticleEmitter;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.minesweeper.MineSweeper;
 import com.minesweeper.tileEntities.TileEntityMineFieldCompletionSearch;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class BlockGoodies  extends BaseFieldBlock  implements ITileEntityProvider {
@@ -43,59 +50,11 @@ public class BlockGoodies  extends BaseFieldBlock  implements ITileEntityProvide
 
         GameRegistry.registerBlock(this, name);
     }
-/*
-    @Override
-    public void registerBlockIcons(IIconRegister icon) {
-        numbers = new IIcon[13];
 
-        this.cancle = icon.registerIcon(MineSweeper.MODID + ":" + "cancel");
-
-        for (int x = 0; x < numbers.length; x++) {
-            numbers[x] = icon.registerIcon(MineSweeper.MODID + ":" + "stone-"
-                    + (x + 1));
-        }
-        // blockIcon = icon.registerIcon(ModInfo.ID.toLowerCase() + ":" +
-        // Names.tutBlock_unlocalizedName);
-
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int metadata) {
-        if (metadata == 15)
-            return cancle;
-        else
-            return numbers[metadata];
-
-    }
-*/
-
-  /*  public boolean hasTileEntity(int metadata) {
-        return true;
-    }*/
-
-   // @Override
-   // public TileEntity createTileEntity(World world, int metadata) {
-      //  return new TileEntityMineFieldCompletionSearch();
-   // }
 
 /*
-    @Override
-    public void breakBlock(World world, BlockPos pos, IBlockState state){
-      /*  TileEntityMineFieldCompletionSearch b = (TileEntityMineFieldCompletionSearch) world.getTileEntity(x, y, z);
-        if (b != null) {
-            if (b.IsMineFieldCompleted(world)) {
-                b.ClearField(world);
-            }
-        }*/
-        //super.breakBlock(world, pos, state);
-    //}
-
-
-
-
     public void c(World world, int x, int y, int z, int meta) {
-        /*if (!par1World.J) {
+        if (!par1World.J) {
             int metaData = par1World.h(par2, par3, par4) + 1;
             switch (metaData) {
                 case 1:
@@ -211,20 +170,37 @@ public class BlockGoodies  extends BaseFieldBlock  implements ITileEntityProvide
                     ((float) this.rand.nextGaussian() * 0.2F + 0.2F);
             var14.y =
                     ((float) this.rand.nextGaussian() * 0.2F);
-                    }*/
-    	//world.setBlock(x, y, z, MineSweeperBlocks.blockFloatingNumber, meta, 2);
+                    }
+    	world.setBlock(x, y, z, MineSweeperBlocks.blockFloatingNumber, meta, 2);
         
     }
-
+*/
     @Override
     public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
         TileEntityMineFieldCompletionSearch compleitionSearch =((TileEntityMineFieldCompletionSearch) worldIn.getTileEntity(pos));
         if(compleitionSearch != null) {
-            if (compleitionSearch.IsMineFieldCompleted(worldIn)) {
-                compleitionSearch.ClearField(worldIn);
+            if (compleitionSearch.isMineFieldCompleted(worldIn)) {
+                BlockPos[] mines = compleitionSearch.getExplosives(worldIn);
+                for (int i = 0; i < mines.length; i++) {
+                    ArrayList<ItemStack> lpossibleDrops = new ArrayList<ItemStack>();
+                    lpossibleDrops.add(new ItemStack(Items.coal, worldIn.rand.nextInt(15)));
+                    lpossibleDrops.add(new ItemStack(Items.diamond, worldIn.rand.nextInt(3)));
+                    lpossibleDrops.add(new ItemStack(Items.redstone, worldIn.rand.nextInt(20)));
+
+                    for (int x = 0; x < lpossibleDrops.size(); x++) {
+                        Block.spawnAsEntity(worldIn, mines[i], lpossibleDrops.get(x));
+                    }
+
+                }
+                PacketDispatcher.sendToAllAround(new FieldClearedOnSuccess(mines), new NetworkRegistry.TargetPoint(player.dimension,player.posX,player.posY,player.posZ,100));
+                compleitionSearch.clearField(worldIn);
             }
         }
+
     }
+
+
+
     @Override
     public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, IBlockState state) {
         worldIn.setBlockState(pos, MineSweeperBlocks.blockFloatingNumber.getDefaultState(), 2);
@@ -238,8 +214,8 @@ public class BlockGoodies  extends BaseFieldBlock  implements ITileEntityProvide
     }
 
 
-
- /*   private void ChanceToSpawnGoods(World world, int x, int y, int z, amj b,
+/*
+    private void ChanceToSpawnGoods(World world, int x, int y, int z, amj b,
                                     float chance, float chanceDecrease, Random rand) {
         while (chance > 0.0F) {
             if (rand.nextFloat() > chance) {
@@ -270,8 +246,3 @@ public class BlockGoodies  extends BaseFieldBlock  implements ITileEntityProvide
 
 }
 
-/*
- * Location:
- * C:\Users\Michael\Desktop\oldComputer\MinecraftMods\MineSweeper\!\MineSweeper
- * \BlockGoodies.class Java compiler version: 6 (50.0) JD-Core Version: 0.7.1
- */

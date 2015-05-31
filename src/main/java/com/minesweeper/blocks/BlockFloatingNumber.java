@@ -35,9 +35,10 @@ import com.minesweeper.tileEntities.TileEntityFloatingNumber;
 
 
      @Override
-        public boolean isOpaqueCube(){
-            return false;
-        }
+    public boolean isOpaqueCube(){
+        return false;
+    }
+
      @Override
      public boolean canCollideCheck(IBlockState state, boolean hitIfLiquid)
      {
