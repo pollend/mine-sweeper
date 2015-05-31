@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) 2011-2015, Michael Pollind
+ **/
+
 package com.minesweeper.Networking;
 
 import io.netty.buffer.ByteBuf;
@@ -9,9 +13,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-/**
- * Created by Michael on 5/30/2015.
- */
 public class FieldClearedOnSuccess implements IMessage {
 
     private  BlockPos[] mines = new BlockPos[0];
@@ -68,7 +69,7 @@ public class FieldClearedOnSuccess implements IMessage {
                             double d1 = (double) mines[x].getX() + (world.rand.nextDouble());
                             double d2 = (double) mines[x].getY() + world.rand.nextDouble();
                             double d3 = (double) mines[x].getZ() + (world.rand.nextDouble());
-                            world.spawnParticle(EnumParticleTypes.CLOUD, d1, d2, d3, 0, 0, 0, new int[0]);
+                            world.spawnParticle(EnumParticleTypes.CLOUD, d1, d2, d3, 0, 0, 0);
                         }
                     }
                 }

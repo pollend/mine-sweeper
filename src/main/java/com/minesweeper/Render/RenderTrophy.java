@@ -1,7 +1,9 @@
- package com.minesweeper.Render;
+/**
+ * Copyright (c) 2011-2015, Michael Pollind
+ **/
 
+package com.minesweeper.Render;
 import net.minecraft.block.Block;
-
 import net.minecraft.world.IBlockAccess;
 
  public class RenderTrophy

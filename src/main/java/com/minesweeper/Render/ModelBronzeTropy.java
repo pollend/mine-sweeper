@@ -1,4 +1,8 @@
- package com.minesweeper.Render;
+/**
+ * Copyright (c) 2011-2015, Michael Pollind
+ **/
+
+package com.minesweeper.Render;
 
 
  //@SideOnly(Side.CLIENT)

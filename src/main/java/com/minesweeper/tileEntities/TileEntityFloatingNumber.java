@@ -1,4 +1,8 @@
- package com.minesweeper.tileEntities;
+/**
+ * Copyright (c) 2011-2015, Michael Pollind
+ **/
+
+package com.minesweeper.tileEntities;
  
 
 import net.minecraft.server.gui.IUpdatePlayerListBox;

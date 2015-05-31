@@ -1,4 +1,9 @@
- package com.minesweeper;
+/**
+ * Copyright (c) 2011-2015, Michael Pollind
+ **/
+
+
+package com.minesweeper;
 
 
 import com.minesweeper.Networking.PacketDispatcher;
@@ -7,11 +12,9 @@ import com.minesweeper.blocks.MineSweeperBlocks;
 import com.minesweeper.generate.GenerateMineField;
 import com.minesweeper.tileEntities.TileEntityFloatingNumber;
 import com.minesweeper.tileEntities.TileEntityMineFieldCompletionSearch;
-
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;

@@ -1,4 +1,8 @@
- package com.minesweeper.blocks;
+/**
+ * Copyright (c) 2011-2015, Michael Pollind
+ **/
+
+package com.minesweeper.blocks;
 
  import com.minesweeper.MineSweeper;
  import net.minecraft.block.Block;

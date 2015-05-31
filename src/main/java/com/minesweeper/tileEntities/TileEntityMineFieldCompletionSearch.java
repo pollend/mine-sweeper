@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2011-2015, Michael Pollind
+ **/
+
+
 package com.minesweeper.tileEntities;
 
 import com.minesweeper.blocks.BlockExplosiveMine;

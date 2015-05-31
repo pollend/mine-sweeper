@@ -1,4 +1,8 @@
- package com.minesweeper.Render;
+/**
+ * Copyright (c) 2011-2015, Michael Pollind
+ **/
+
+package com.minesweeper.Render;
 
  import net.minecraft.client.gui.FontRenderer;
  import net.minecraft.client.renderer.GlStateManager;

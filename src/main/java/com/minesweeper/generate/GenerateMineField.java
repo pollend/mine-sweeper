@@ -1,4 +1,8 @@
- package com.minesweeper.generate;
+/**
+ * Copyright (c) 2011-2015, Michael Pollind
+ **/
+
+package com.minesweeper.generate;
  
 
 import java.util.ArrayList;

@@ -1,10 +1,11 @@
+/**
+ * Copyright (c) 2011-2015, Michael Pollind
+ **/
+
 package com.minesweeper.blocks;
 
 import net.minecraftforge.common.property.IUnlistedProperty;
 
-/**
- * Created by Michael on 5/30/2015.
- */
 public class UnlistedPropertyState implements IUnlistedProperty<Integer> {
     @Override
     public String getName() {

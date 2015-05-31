@@ -1,3 +1,6 @@
+/**
+ * Copyright (c) 2011-2015, Michael Pollind
+ **/
 package com.minesweeper.Networking;
 
 import com.minesweeper.MineSweeper;
@@ -6,9 +9,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
-/**
- * Created by Michael on 5/30/2015.
- */
 public class PacketDispatcher {
     private static byte packetId = 0;
     private static final SimpleNetworkWrapper dispatcher = NetworkRegistry.INSTANCE.newSimpleChannel(MineSweeper.MODID);
