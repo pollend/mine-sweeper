@@ -45,7 +45,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
        MineSweeperBlocks.init();
 
-	   GameRegistry.registerWorldGenerator(new GenerateMineField(),5);
+	   GameRegistry.registerWorldGenerator(new GenerateMineField(),-100);
 
        PacketDispatcher.registerPackets();
 

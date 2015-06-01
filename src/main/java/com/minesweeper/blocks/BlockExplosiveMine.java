@@ -51,8 +51,8 @@ package com.minesweeper.blocks;
          BlockPos[] mines = compleitionSearch.getExplosives(worldIn);
          if(mines != null) {
              compleitionSearch.clearField(worldIn);
-             for (int i = 0; i < ((int) (mines.length / 4.0f)); i++) {
-                 worldIn.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 4.0f, true);
+             for (int i = 0; i <mines.length ; i++) {
+                 worldIn.createExplosion(null, mines[i].getX(), mines[i].getY(), mines[i].getZ(), 4.0f, true);
              }
          }
      }
